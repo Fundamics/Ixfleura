@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Disqord.Bot" Version="1.0.0-06082021-36" />
+      <PackageReference Include="FuzzySharp" Version="2.0.2" />
+      <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0-preview.4.21253.7" />
+      <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0-preview.4.21253.7" />
+      <PackageReference Include="Serilog" Version="2.10.1-dev-01308" />
+      <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.2-dev-10289" />
+      <PackageReference Include="Serilog.Sinks.Console" Version="4.0.0-dev-00839" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="config.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+</Project>
