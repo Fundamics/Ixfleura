@@ -1,9 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Disqord;
 using Disqord.Bot;
 using Disqord.Extensions.Interactivity;
 using Disqord.Gateway;
+using Disqord.Http;
 using Disqord.Rest;
 using FuzzySharp;
 using Ixfleura.Common.Extensions;
@@ -15,11 +18,40 @@ namespace Ixfleura.Commands.Modules
 {
     public class FunModule : DiscordGuildModuleBase
     {
+        private static readonly IReadOnlyList<string> EightBallResponses = new[]
+        {
+            // good
+            "It is certain.",
+            "It is decidedly so.",
+            "Without a doubt.",
+            "Yes – definitely.",
+            "You may rely on it.",
+            "As I see it, yes.",
+            "Most likely.",
+            "Outlook good.",
+            "Yes.",
+            "Signs point to yes.",
+            // uncertain
+            "Reply hazy, try again.",
+            "Ask again later.",
+            "Better not tell you now.",
+            "Cannot predict now.",
+            "Concentrate and ask again.",
+            // bad
+            "Don't count on it.",
+            "My reply is no.",
+            "My sources say no.",
+            "Outlook not so good.",
+            "Very doubtful. "
+        };
+        
         private readonly SearchService _searchService;
+        private readonly Random _random;
 
-        public FunModule(SearchService searchService)
+        public FunModule(SearchService searchService, Random random)
         {
             _searchService = searchService;
+            _random = random;
         }
         
         [Command("poll")]
@@ -63,6 +95,7 @@ namespace Ixfleura.Commands.Modules
         }
 
         [Command("trivia")]
+        [Description("Play some trivia questions!")]
         public async Task<DiscordCommandResult> TriviaAsync()
         {
             var (question, answer) = await _searchService.GetTriviaQuestionAsync();
@@ -77,10 +110,101 @@ namespace Ixfleura.Commands.Modules
             
             if (userAnswer == answer)
                 return Response("Correct answer!");
-            if (res >= 85)
+            if (res >= 70)
                 return Response("Close answer! you're correct!");
 
             return Response("Incorrect answer!");
         }
+
+        [Command("echo", "say", "repeat")]
+        [Description("I repeat whatever you say")]
+        public DiscordCommandResult Echo([Remainder] string echoText)
+            => Reply(echoText);
+
+        [Command("choose", "choice")]
+        [Description("Choose from some options")]
+        public DiscordCommandResult Choice([Remainder] string choiceOptions)
+        {
+            var choices = choiceOptions.Split('|', StringSplitOptions.TrimEntries);
+
+            return Response(choices.Length < 2 ? "I need more options to choose from" : choices[_random.Next(choices.Length)]);
+        }
+
+        [Command("flip", "coin")]
+        [Description("Do a coin flip")]
+        public DiscordCommandResult CoinFlip()
+        {
+            var num = _random.Next(0, 2);
+            return Response(num == 0 ? "Heads" : "Tails");
+        }
+        
+        [Command("quote")]
+        [Description("Quote a message")]
+        public async Task<DiscordCommandResult> QuoteMessageAsync(string quoteUrl)
+        {
+            var regex = Discord.MessageJumpLinkRegex;
+
+            if (!regex.IsMatch(quoteUrl))
+                return Response("It seems you have not given me a valid jump URL");
+
+            var res = regex.Match(quoteUrl);
+            var channelId = Convert.ToUInt64(res.Groups["channel_id"].Value);
+            var messageId = Convert.ToUInt64(res.Groups["message_id"].Value);
+
+            IChannel channel;
+            try
+            {
+                channel = await Context.Bot.FetchChannelAsync(channelId);
+            }
+            catch (RestApiException e) when (e.StatusCode == HttpResponseStatusCode.Forbidden)
+            {
+                return Response("It seems I am unable to access that channel");
+            }
+
+            if (channel is not IGuildChannel guildChannel)
+            {
+                return Response("I cannot read messages from a DM");
+            }
+            
+            if (!Context.CurrentMember.GetChannelPermissions(guildChannel).ReadMessageHistory)
+                return Response("I don't have the necessary permissions to view this channel");
+
+            if (!Context.Author.GetChannelPermissions(guildChannel).ReadMessageHistory)
+                return Response("You don't have the necessary permissions to view this channel");
+
+            var message = await Context.Bot.FetchMessageAsync(channelId, messageId);
+            
+            var eb = new LocalEmbed()
+                .WithAuthor(message.Author.ToString(), message.Author.GetAvatarUrl())
+                .WithDescription(message.Content)
+                .WithIxColor()
+                .WithFooter($"Id: {messageId}")
+                .WithTimestamp(message.CreatedAt());
+
+            return Response(eb);
+        }
+
+        [Command("quote")]
+        [Description("Quote a message")]
+        public DiscordCommandResult QuoteMessageAsync()
+        {
+            var messageRef = Context.Message.ReferencedMessage.GetValueOrDefault();
+            if (messageRef is null)
+                return Response("I require a Jump URL or a reference to a message to quote");
+            
+            var eb = new LocalEmbed()
+                .WithAuthor(messageRef.Author.ToString(), messageRef.Author.GetAvatarUrl())
+                .WithDescription(messageRef.Content)
+                .WithIxColor()
+                .WithFooter($"Id: {messageRef.Id}")
+                .WithTimestamp(messageRef.CreatedAt());
+
+            return Response(eb);
+        }
+        
+        [Command("8ball", "eightball")]
+        [Description("Consult the magic 8ball")]
+        public DiscordCommandResult EightBall([Remainder] string question)
+            => Response(EightBallResponses[_random.Next(0, EightBallResponses.Count)]);
     }
 }
