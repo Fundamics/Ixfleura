@@ -15,5 +15,8 @@
     "mod" : 0,
     "admin" : 0,
     "studying" : 0
+  },
+  "database" : {
+    "connection" : "postgres-connection-string"
   }
 }
