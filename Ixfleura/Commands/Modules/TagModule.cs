@@ -92,7 +92,6 @@ namespace Ixfleura.Commands.Modules
         }
         
         [Command("info", "about")]
-        [RequireModOrAdmin]
         public async Task<DiscordCommandResult> Info([Remainder] string name)
         {
             var tag = await _tagService.GetTagAsync(Context.GuildId, name);
