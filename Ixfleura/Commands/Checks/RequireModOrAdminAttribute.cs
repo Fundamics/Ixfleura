@@ -2,21 +2,24 @@
 using System.Threading.Tasks;
 using Disqord;
 using Disqord.Bot;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Qmmands;
 
 namespace Ixfleura.Commands.Checks
 {
     public class RequireModOrAdminAttribute : DiscordCheckAttribute
     {
-        private readonly Snowflake _modId = new Snowflake(828662023666663473);
-        private readonly Snowflake _adminId = new Snowflake(828662023666663473);
-        
         public override ValueTask<CheckResult> CheckAsync(DiscordCommandContext context)
         {
+            var configuration = context.Services.GetRequiredService<IConfiguration>();
+            var modId = configuration.GetValue<ulong>("roles:mod");
+            var adminId = configuration.GetValue<ulong>("roles:admin");
+            
             if (context.Author is not IMember member)
                 return Failure("You need to be inside a guild");
 
-            if (!(member.RoleIds.Contains(_modId) || member.RoleIds.Contains(_adminId)))
+            if (!(member.RoleIds.Contains(modId) || member.RoleIds.Contains(adminId)))
                 return Failure("You do not have the necessary permissions to do this command");
 
             return Success();

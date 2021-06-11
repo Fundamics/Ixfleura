@@ -18,8 +18,8 @@ namespace Ixfleura.Services
 
         public WelcomingService(ILogger<WelcomingService> logger, DiscordBotBase bot, IConfiguration configuration) : base(logger, bot)
         {
-            _welcomeChannelId = Convert.ToUInt64(configuration["fundamics:welcome_id"]);
-            _guildId = Convert.ToUInt64(configuration["fundamics:guild_id"]);
+            _welcomeChannelId = configuration.GetValue<ulong>("fundamics:welcome_id");
+            _guildId = configuration.GetValue<ulong>("fundamics:guild_id");
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)

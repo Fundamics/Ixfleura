@@ -23,7 +23,7 @@ namespace Ixfleura.Commands.Modules
         [RequireFundamics]
         public async Task<DiscordCommandResult> StudyingRoleAsync()
         {
-            var studyingRoleId = Convert.ToUInt64(_configuration["fundamics:studying_id"]);
+            var studyingRoleId = _configuration.GetValue<ulong>("roles:studying");
 
             if (Context.Author.RoleIds.Contains(studyingRoleId))
             {
