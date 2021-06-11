@@ -1,14 +1,19 @@
 ﻿{
   "discord" : {
     "token" : "your token",
-    "prefixes" : ["your", "prefixes"]
+    "prefixes" : ["ix", "-"]
   },
 
-  "your guild" : {
-    "guild_id" : 123456789,
-    "suggestion_id" : 123456789,
-    "botlog_id" : 123456789,
-    "welcome_id" : 123456789,
-    "studying_id" : 123456789
+  "fundamics" : {
+    "swears" : ["a", "bunch", "of", "curse", "words"],
+    "guild_id" : 0,
+    "suggestion_id" : 0,
+    "botlog_id" : 0,
+    "welcome_id" : 0
+  },
+  "roles" : {
+    "mod" : 0,
+    "admin" : 0,
+    "studying" : 0
   }
 }
