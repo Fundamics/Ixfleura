@@ -3,6 +3,8 @@ using Disqord;
 using Disqord.Bot;
 using Disqord.Rest;
 using Ixfleura.Commands.Checks;
+using Ixfleura.Common.Types;
+using Ixfleura.Services;
 using Qmmands;
 
 namespace Ixfleura.Commands.Modules
@@ -10,39 +12,53 @@ namespace Ixfleura.Commands.Modules
     [RequireModOrAdmin]
     public class ModerationModule : DiscordGuildModuleBase
     {
-        [Command("kick", "boot")]
-        [Description("Kick a user from the server")]
-        [RequireBotGuildPermissions(Permission.KickMembers)]
-        public async Task<DiscordCommandResult> KickAsync(
-            IMember member,
-            [Remainder] string reason = null)
+        private readonly ModerationService _moderationService;
+        public ModerationModule(ModerationService moderationService)
         {
-            var reqOptions = new DefaultRestRequestOptions
-            {
-                Reason = reason ?? $"Kicked by action of {Context.Author.Tag}"
-            };
-
-            await member.KickAsync(reqOptions);
-
-            return Response($"Successfully kicked {member.Tag}");
+            _moderationService = moderationService;
         }
         
         [Command("kick", "boot")]
         [Description("Kick a user from the server")]
         [RequireBotGuildPermissions(Permission.KickMembers)]
+
         public async Task<DiscordCommandResult> KickAsync(
-            ulong id,
+            [RequireBotHierarchy] IMember member,
             [Remainder] string reason = null)
         {
-            var reqOptions = new DefaultRestRequestOptions
-            {
-                Reason = reason ?? $"Kicked by action of {Context.Author.Tag}"
-            };
-            
-            await Context.Guild.KickMemberAsync(new Snowflake(id), reqOptions);
+            reason ??= $"Kicked by action of {Context.Author.Tag}";
 
-            return Response("Successfully kicked that user");
+            await member.KickAsync(new DefaultRestRequestOptions
+            {
+                Reason = reason
+            });
+            
+            await _moderationService.SendModLogAsync(member.Tag, Context.Author.Tag, reason,member.Id, ModLogType.Kick);
+
+            return Response($"Successfully kicked {member.Tag}");
         }
+        
+        // [Command("kick", "boot")]
+        // [Description("Kick a user from the server")]
+        // [RequireBotGuildPermissions(Permission.KickMembers)]
+        // public async Task<DiscordCommandResult> KickAsync(
+        //     ulong id,
+        //     [Remainder] string reason = null)
+        // {
+        //     
+        //     
+        //     reason ??= $"Kicked by action of {Context.Author.Tag}";
+        //     
+        //     await Context.Guild.KickMemberAsync(new Snowflake(id), new DefaultRestRequestOptions
+        //     {
+        //         Reason = reason
+        //     });
+        //
+        //     await _moderationService.SendModLogAsync($"ID: {id} (User no longer in server)", Context.Author.Tag, reason, id,
+        //         ModLogType.Kick);
+        //
+        //     return Response("Successfully kicked that user");
+        // }
 
         [Command("ban", "hammer")]
         [Description("Ban a user from the server")]
@@ -51,7 +67,12 @@ namespace Ixfleura.Commands.Modules
             IMember member, 
             [Remainder] string reason = null)
         {
-            await member.BanAsync(reason ?? $"Banned by action of {Context.Author.Tag}");
+            reason ??= $"Banned by action of {Context.Author.Tag}";
+            
+            await member.BanAsync(reason);
+
+            await _moderationService.SendModLogAsync(member.Tag, Context.Author.Tag, reason, member.Id, ModLogType.Ban);
+            
             return Response($"Successfully banned {member.Tag}");
         }
         
@@ -62,7 +83,13 @@ namespace Ixfleura.Commands.Modules
             ulong id, 
             [Remainder] string reason = null)
         {
-            await Context.Guild.CreateBanAsync(new Snowflake(id), reason ?? $"Banned by action of {Context.Author.Tag}");
+            reason ??= $"Banned by action of {Context.Author.Tag}";
+            
+            await Context.Guild.CreateBanAsync(new Snowflake(id), reason);
+
+            await _moderationService.SendModLogAsync($"ID: {id} (User no longer in server)", Context.Author.Tag, reason, id,
+                ModLogType.Ban);
+
             return Response("Successfully banned that user");
         }
     }
