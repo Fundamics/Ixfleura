@@ -4,7 +4,9 @@ using Disqord;
 using Disqord.Bot.Hosting;
 using Disqord.Gateway;
 using Ixfleura.Common.Extensions;
+using Ixfleura.Data;
 using Ixfleura.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -48,6 +50,12 @@ namespace Ixfleura
                 .ConfigureServices((context, services) =>
                 {
                     services.AddHttpClient<SearchService>();
+
+                    services.AddDbContextFactory<IxfleuraDbContext>(options =>
+                    {
+                        options.UseNpgsql(context.Configuration["database:connection"]);
+                        options.UseSnakeCaseNamingConvention();
+                    });
                     
                     services
                         .AddSingleton<Random>()
