@@ -26,7 +26,7 @@ namespace Ixfleura.Commands.Modules
             _commandService = commandService;
         }
 
-        [Command("")]
+        [Command]
         public DiscordCommandResult Help()
         {
             return Response(new LocalEmbed()
@@ -40,7 +40,7 @@ namespace Ixfleura.Commands.Modules
                                  "`tag remove [name...]` - Remove a tag"));
         }
 
-        [Command("")]
+        [Command]
         public async Task<DiscordCommandResult> Tag([Remainder] string name)
         {
             var tag = await _tagService.GetTagAsync(Context.GuildId, name);
