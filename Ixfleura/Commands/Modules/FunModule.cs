@@ -10,7 +10,7 @@ using Disqord.Http;
 using Disqord.Rest;
 using FuzzySharp;
 using Ixfleura.Common.Extensions;
-using Ixfleura.Common.Globals;
+using Ixfleura.Common.Types;
 using Ixfleura.Services;
 using Qmmands;
 
@@ -84,7 +84,7 @@ namespace Ixfleura.Commands.Modules
             var eb = new LocalEmbed()
                 .WithTitle(member.Tag)
                 .WithThumbnailUrl(member.GetAvatarUrl())
-                .WithColor(topRole.Color ?? IxGlobals.IxColor)
+                .WithColor(topRole.Color ?? IxColors.IxColor)
                 .AddField("Id", member.Id, true)
                 .AddField("Nickname", member.Nick ?? "No nickname in this guild", true)
                 .AddField("Is Bot", member.IsBot ? "Yes" : "No", true)
@@ -100,7 +100,7 @@ namespace Ixfleura.Commands.Modules
         {
             var (question, answer) = await _searchService.GetTriviaQuestionAsync();
 
-            await Response($"{question}\nAnswer: {answer}");
+            await Response($"{question}");
 
             var input = await Context.Channel.WaitForMessageAsync(x =>
                 x.ChannelId == Context.ChannelId && x.Member.Id == Context.Author.Id);
