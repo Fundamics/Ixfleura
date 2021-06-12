@@ -145,7 +145,7 @@ namespace Ixfleura.Commands.Modules
 
         [Command("remove", "delete")]
         [RequireModOrAdmin]
-        public async Task<DiscordCommandResult> Remove([Remainder] string name)
+        public async Task<DiscordCommandResult> RemoveTagAsync([Remainder] string name)
         {
             var tag = await _tagService.GetTagAsync(Context.GuildId, name);
             if (tag is null)
