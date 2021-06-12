@@ -41,7 +41,7 @@ namespace Ixfleura.Commands.Modules
         }
 
         [Command]
-        public async Task<DiscordCommandResult> Tag([Remainder] string name)
+        public async Task<DiscordCommandResult> TagAsync([Remainder] string name)
         {
             var tag = await _tagService.GetTagAsync(Context.GuildId, name);
             if (tag is null) 
@@ -53,7 +53,7 @@ namespace Ixfleura.Commands.Modules
         }
 
         [Command("list", "all")]
-        public async Task<DiscordCommandResult> List()
+        public async Task<DiscordCommandResult> ListTagsAsync()
         {
             var tags = await _tagService.GetTagsAsync(Context.GuildId);
             tags = tags.OrderByDescending(x => x.Uses).ToList();
@@ -92,7 +92,7 @@ namespace Ixfleura.Commands.Modules
         }
         
         [Command("info", "about")]
-        public async Task<DiscordCommandResult> Info([Remainder] string name)
+        public async Task<DiscordCommandResult> TagInfoAsync([Remainder] string name)
         {
             var tag = await _tagService.GetTagAsync(Context.GuildId, name);
             if (tag is null)
@@ -108,7 +108,7 @@ namespace Ixfleura.Commands.Modules
         
         [Command("create", "add")]
         [RequireModOrAdmin]
-        public async Task<DiscordCommandResult> Create(string name, [Remainder] string value)
+        public async Task<DiscordCommandResult> CreateTagAsync(string name, [Remainder] string value)
         {
             if (!IsTagNameValid(name))
                 return Response($"The tag name \"{name}\" is forbidden, please choose another name.");
@@ -130,7 +130,7 @@ namespace Ixfleura.Commands.Modules
         
         [Command("edit", "update")]
         [RequireModOrAdmin]
-        public async Task<DiscordCommandResult> Edit(string name, [Remainder] string content)
+        public async Task<DiscordCommandResult> EditTagAsync(string name, [Remainder] string content)
         {
             var tag = await _tagService.GetTagAsync(Context.GuildId, name);
             if (tag is null)
