@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.IO;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
@@ -9,7 +10,7 @@ namespace Ixfleura.Data
         public IxfleuraDbContext CreateDbContext(string[] args)
         {
             var config = new ConfigurationBuilder()
-                .AddJsonFile("./config.json")
+                .AddJsonFile(Directory.GetCurrentDirectory() + "/../Ixfleura/config.json")
                 .Build();
 
             var optionsBuilder = new DbContextOptionsBuilder<IxfleuraDbContext>();
