@@ -20,11 +20,11 @@ namespace Ixfleura.Services
             var a = JArray.Parse(response);
             var o = JObject.FromObject(a[0]);
 
-            var question = o["question"];
-            var answer = o["answer"];
-            var cleanAnswer = StripHtmlTags((string) answer);
+            var question = (string) o["question"];
+            var answer = (string) o["answer"];
+            var cleanAnswer = StripHtmlTags(answer).ToLower();
 
-            return ((string) question, cleanAnswer.ToLower());
+            return (question, cleanAnswer);
         }
 
         private string StripHtmlTags(string source)
