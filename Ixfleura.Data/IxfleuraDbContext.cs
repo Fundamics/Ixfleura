@@ -9,6 +9,7 @@ namespace Ixfleura.Data
         { }
         
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<Suggestion> Suggestions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
