@@ -58,6 +58,8 @@ namespace Ixfleura.Commands.Modules
             
             await _suggestionService.UpdateSuggestionAsync(suggestion);
 
+            await Response("Your suggestion has been made.");
+
             await Context.Message.DeleteAsync();
         }
 
@@ -67,47 +69,7 @@ namespace Ixfleura.Commands.Modules
         {
             var suggestion = await _suggestionService.GetSuggestionAsync(id);
 
-            if (suggestion is null)
-            {
-                var message = await Response("A suggestion with that id could not be found.");
-               await Task.Delay(8000);
-               await message.DeleteAsync()
-                return;
-            }
-            
-            var forCount = 0;
-            var againstCount = 0;
-
-            var suggestionMessage = await Context.Bot.FetchMessageAsync(suggestion.ChannelId, suggestion.MessageId);
-
-            if (suggestionMessage.Reactions.HasValue)
-            {
-                var (denyEmoji, checkEmoji) = _suggestionService.GetSuggestionEmojis();
-
-                forCount = suggestionMessage.Reactions.Value[denyEmoji].Count - 1;
-                againstCount = suggestionMessage.Reactions.Value[checkEmoji].Count - 1;
-            }
-            
-            var suggestionChannelId = _configuration.GetValue<ulong>("fundamics:suggestion_id");
-
-            var acceptEmbed = new LocalEmbed()
-                .WithColor(Color.Green)
-                .WithFooter($"suggestion Id: {suggestion.Id}")
-                .WithTimestamp(DateTimeOffset.UtcNow)
-                .AddField("Results", $"For: {forCount}\n Against: {againstCount}")
-                .AddField("Suggestion", suggestion.Content)
-                .AddField("Submitter", Mention.User(suggestion.SuggesterId))
-                .AddField("Accepted by", Context.Author.Mention)
-                .AddField("Response", reason);
-
-            await Context.Bot.SendMessageAsync(suggestionChannelId, new LocalMessage().WithEmbed(acceptEmbed));
-        }
-        
-        [Command("reject")]
-        [RequireModOrAdmin]
-        public async Task RejectSuggestionAsync(int id, [Remainder] string reason)
-        {
-            var suggestion = await _suggestionService.GetSuggestionAsync(id);
+            await Context.Message.DeleteAsync();
 
             if (suggestion is null)
             {
@@ -130,7 +92,51 @@ namespace Ixfleura.Commands.Modules
                 againstCount = suggestionMessage.Reactions.Value[checkEmoji].Count - 1;
             }
             
-            var suggestionChannelId = _configuration.GetValue<ulong>("fundamics:suggestion_id");
+            var metaChannelId = _configuration.GetValue<ulong>("fundamics:meta_id");
+
+            var acceptEmbed = new LocalEmbed()
+                .WithColor(Color.Green)
+                .WithFooter($"suggestion Id: {suggestion.Id}")
+                .WithTimestamp(DateTimeOffset.UtcNow)
+                .AddField("Results", $"For: {forCount}\n Against: {againstCount}")
+                .AddField("Suggestion", suggestion.Content)
+                .AddField("Submitter", Mention.User(suggestion.SuggesterId))
+                .AddField("Accepted by", Context.Author.Mention)
+                .AddField("Response", reason);
+
+            await Context.Bot.SendMessageAsync(metaChannelId, new LocalMessage().WithEmbed(acceptEmbed));
+        }
+        
+        [Command("reject")]
+        [RequireModOrAdmin]
+        public async Task RejectSuggestionAsync(int id, [Remainder] string reason)
+        {
+            var suggestion = await _suggestionService.GetSuggestionAsync(id);
+
+            await Context.Message.DeleteAsync();
+
+            if (suggestion is null)
+            {
+                var message = await Response("A suggestion with that id could not be found.");
+                await Task.Delay(8000);
+                await message.DeleteAsync();
+                return;
+            }
+            
+            var forCount = 0;
+            var againstCount = 0;
+
+            var suggestionMessage = await Context.Bot.FetchMessageAsync(suggestion.ChannelId, suggestion.MessageId);
+
+            if (suggestionMessage.Reactions.HasValue)
+            {
+                var (denyEmoji, checkEmoji) = _suggestionService.GetSuggestionEmojis();
+
+                forCount = suggestionMessage.Reactions.Value[denyEmoji].Count - 1;
+                againstCount = suggestionMessage.Reactions.Value[checkEmoji].Count - 1;
+            }
+            
+            var metaChannelId = _configuration.GetValue<ulong>("fundamics:meta_id");
 
             var rejectEmbed = new LocalEmbed()
                 .WithColor(Color.Red)
@@ -142,7 +148,7 @@ namespace Ixfleura.Commands.Modules
                 .AddField("Rejected by", Context.Author.Mention)
                 .AddField("Response", reason);
 
-            await Context.Bot.SendMessageAsync(suggestionChannelId, new LocalMessage().WithEmbed(rejectEmbed));
+            await Context.Bot.SendMessageAsync(metaChannelId, new LocalMessage().WithEmbed(rejectEmbed));
         }
     }
 }
