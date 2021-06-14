@@ -111,7 +111,8 @@ namespace Ixfleura.Commands.Modules
             if (suggestion is null)
             {
                 var message = await Response("A suggestion with that id could not be found.");
-                _ = Task.Delay(8000).ContinueWith(_ => message.DeleteAsync());
+                await Task.Delay(8000);
+                await message.DeleteAsync();
                 return;
             }
             
