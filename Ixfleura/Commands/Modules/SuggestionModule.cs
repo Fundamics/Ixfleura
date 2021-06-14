@@ -18,7 +18,7 @@ namespace Ixfleura.Commands.Modules
         private readonly IConfiguration _configuration;
         private readonly SuggestionService _suggestionService;
 
-        public SuggestionModule(IConfiguration configuration ,SuggestionService suggestionService)
+        public SuggestionModule(IConfiguration configuration, SuggestionService suggestionService)
         {
             _configuration = configuration;
             _suggestionService = suggestionService;
