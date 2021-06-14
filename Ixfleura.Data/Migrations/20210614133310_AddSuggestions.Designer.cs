@@ -3,15 +3,17 @@ using System;
 using Ixfleura.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Ixfleura.Data.Migrations
 {
     [DbContext(typeof(IxfleuraDbContext))]
-    partial class IxfleuraDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210614133310_AddSuggestions")]
+    partial class AddSuggestions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
