@@ -9,6 +9,9 @@ using Qmmands;
 
 namespace Ixfleura.Commands.Modules
 {
+    /// <summary>
+    /// Moderation commands module.
+    /// </summary>
     [RequireModOrAdmin]
     public class ModerationModule : DiscordGuildModuleBase
     {
@@ -18,10 +21,18 @@ namespace Ixfleura.Commands.Modules
             _moderationService = moderationService;
         }
         
+        /// <summary>
+        /// Kicks a member from the server.
+        /// </summary>
+        /// <param name="member">
+        /// The member to kick.
+        /// </param>
+        /// <param name="reason">
+        /// The reason for which the user was kicked.
+        /// </param>
         [Command("kick", "boot")]
         [Description("Kick a user from the server")]
         [RequireBotGuildPermissions(Permission.KickMembers)]
-
         public async Task<DiscordCommandResult> KickAsync(
             [RequireBotHierarchy] IMember member,
             [Remainder] string reason = null)
@@ -60,6 +71,15 @@ namespace Ixfleura.Commands.Modules
         //     return Response("Successfully kicked that user");
         // }
 
+        /// <summary>
+        /// Bans a member from the server.
+        /// </summary>
+        /// <param name="member">
+        /// The member to ban.
+        /// </param>
+        /// <param name="reason">
+        /// The reason for which the member was banned.
+        /// </param>
         [Command("ban", "hammer")]
         [Description("Ban a user from the server")]
         [RequireBotGuildPermissions(Permission.BanMembers)]
@@ -76,6 +96,16 @@ namespace Ixfleura.Commands.Modules
             return Response($"Successfully banned {member.Tag}");
         }
         
+        /// <summary>
+        /// Ban a member from the server
+        /// </summary>
+        /// <param name="id">
+        /// The id of the user to ban
+        /// </param>
+        /// <param name="reason">
+        /// The reason for which the member was banned.
+        /// </param>
+        /// <returns></returns>
         [Command("ban", "hammer")]
         [Description("Ban a user from the server")]
         [RequireBotGuildPermissions(Permission.BanMembers)]

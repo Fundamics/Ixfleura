@@ -13,6 +13,9 @@ using Qmmands;
 
 namespace Ixfleura.Commands.Modules
 {
+    /// <summary>
+    /// Tag related commands.
+    /// </summary>
     [Group("tag")]
     [RequireFundamics]
     public class TagModule : DiscordGuildModuleBase
@@ -26,6 +29,9 @@ namespace Ixfleura.Commands.Modules
             _commandService = commandService;
         }
 
+        /// <summary>
+        /// Get help info about tags.
+        /// </summary>
         [Command]
         public DiscordCommandResult Help()
         {
@@ -40,6 +46,12 @@ namespace Ixfleura.Commands.Modules
                                  "`tag remove [name...]` - Remove a tag"));
         }
 
+        /// <summary>
+        /// Get a tag.
+        /// </summary>
+        /// <param name="name">
+        /// The name of the tag to get.
+        /// </param>
         [Command]
         public async Task<DiscordCommandResult> TagAsync([Remainder] string name)
         {
@@ -52,6 +64,9 @@ namespace Ixfleura.Commands.Modules
             return Response(tag.Content);
         }
 
+        /// <summary>
+        /// List all the tags of this server.
+        /// </summary>
         [Command("list", "all")]
         public async Task<DiscordCommandResult> ListTagsAsync()
         {
@@ -91,6 +106,12 @@ namespace Ixfleura.Commands.Modules
             };
         }
         
+        /// <summary>
+        /// Get information about a particular tag.
+        /// </summary>
+        /// <param name="name">
+        /// The name of the tag.
+        /// </param>
         [Command("info", "about")]
         public async Task<DiscordCommandResult> TagInfoAsync([Remainder] string name)
         {
@@ -106,6 +127,15 @@ namespace Ixfleura.Commands.Modules
                 .AddField("Edited at", $"{tag.EditedAt:yyyy-MM-dd}", true));
         }
         
+        /// <summary>
+        /// Create a new tag.
+        /// </summary>
+        /// <param name="name">
+        /// The name of the tag.
+        /// </param>
+        /// <param name="value">
+        /// The content of the tag.
+        /// </param>
         [Command("create", "add")]
         [RequireModOrAdmin]
         public async Task<DiscordCommandResult> CreateTagAsync(string name, [Remainder] string value)
@@ -128,6 +158,15 @@ namespace Ixfleura.Commands.Modules
             return Response($"The tag \"{name}\" was created successfully.");
         }
         
+        /// <summary>
+        /// Edit an existing tag.
+        /// </summary>
+        /// <param name="name">
+        /// The name of the tag.
+        /// </param>
+        /// <param name="content">
+        /// The new content of the tag.
+        /// </param>
         [Command("edit", "update")]
         [RequireModOrAdmin]
         public async Task<DiscordCommandResult> EditTagAsync(string name, [Remainder] string content)
@@ -143,6 +182,12 @@ namespace Ixfleura.Commands.Modules
             return Response($"The tag \"{name}\" was edited successfully.");
         }
 
+        /// <summary>
+        /// Delete a tag.
+        /// </summary>
+        /// <param name="name">
+        /// The name of the tag.
+        /// </param>
         [Command("remove", "delete")]
         [RequireModOrAdmin]
         public async Task<DiscordCommandResult> RemoveTagAsync([Remainder] string name)
@@ -156,6 +201,15 @@ namespace Ixfleura.Commands.Modules
             return Response($"The tag \"{name}\" was removed successfully.");
         }
 
+        /// <summary>
+        /// Validates tag names.
+        /// </summary>
+        /// <param name="name">
+        /// The name to verify
+        /// </param>
+        /// <returns>
+        /// A <see cref="bool"/> representing if the name is valid or not
+        /// </returns>
         private bool IsTagNameValid(string name)
             => _commandService
                 .GetAllModules()
@@ -163,6 +217,12 @@ namespace Ixfleura.Commands.Modules
                 .All(x => x.Aliases
                     .All(y => !string.Equals(y, name, StringComparison.CurrentCultureIgnoreCase)));
 
+        /// <summary>
+        /// Used when a tag is not found
+        /// </summary>
+        /// <param name="name">
+        /// The name of the tag not found
+        /// </param>
         private async Task<DiscordCommandResult> TagNotFoundResponse(string name)
         {
             var closeTags = await _tagService.SearchTagsAsync(Context.GuildId, name);

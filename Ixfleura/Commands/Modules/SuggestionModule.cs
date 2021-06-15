@@ -12,6 +12,9 @@ using Qmmands;
 
 namespace Ixfleura.Commands.Modules
 {
+    /// <summary>
+    /// Commands to make suggestions.
+    /// </summary>
     [Group("suggest", "suggestion")]
     public class SuggestionModule : DiscordGuildModuleBase
     {
@@ -24,6 +27,12 @@ namespace Ixfleura.Commands.Modules
             _suggestionService = suggestionService;
         }
 
+        /// <summary>
+        /// Creates a new suggestion and tracks it
+        /// </summary>
+        /// <param name="content">
+        /// The suggestion to be given
+        /// </param>
         [Command]
         public async Task CreateSuggestionAsync([Remainder] string content)
         {
@@ -63,9 +72,18 @@ namespace Ixfleura.Commands.Modules
             await Context.Message.DeleteAsync();
         }
 
+        /// <summary>
+        /// Accept a suggestion.
+        /// </summary>
+        /// <param name="id">
+        /// The id of the suggestion to accept.
+        /// </param>
+        /// <param name="response">
+        /// The response to the suggestion.
+        /// </param>
         [Command("accept")]
         [RequireModOrAdmin]
-        public async Task AcceptSuggestionAsync(int id, [Remainder] string reason)
+        public async Task AcceptSuggestionAsync(int id, [Remainder] string response)
         {
             var suggestion = await _suggestionService.GetSuggestionAsync(id);
 
@@ -102,16 +120,25 @@ namespace Ixfleura.Commands.Modules
                 .AddField("Suggestion", suggestion.Content)
                 .AddField("Submitter", Mention.User(suggestion.SuggesterId))
                 .AddField("Accepted by", Context.Author.Mention)
-                .AddField("Response", reason);
+                .AddField("Response", response);
 
             await Context.Bot.SendMessageAsync(metaChannelId, new LocalMessage().WithEmbed(acceptEmbed));
 
             await _suggestionService.RemoveSuggestionAsync(suggestion);
         }
         
+        /// <summary>
+        /// Reject a suggestion.
+        /// </summary>
+        /// <param name="id">
+        /// The id of the suggestion to accept.
+        /// </param>
+        /// <param name="response">
+        /// The response to the suggestion.
+        /// </param>
         [Command("reject")]
         [RequireModOrAdmin]
-        public async Task RejectSuggestionAsync(int id, [Remainder] string reason)
+        public async Task RejectSuggestionAsync(int id, [Remainder] string response)
         {
             var suggestion = await _suggestionService.GetSuggestionAsync(id);
 
@@ -148,7 +175,7 @@ namespace Ixfleura.Commands.Modules
                 .AddField("Suggestion", suggestion.Content)
                 .AddField("Submitter", Mention.User(suggestion.SuggesterId))
                 .AddField("Rejected by", Context.Author.Mention)
-                .AddField("Response", reason);
+                .AddField("Response", response);
 
             await Context.Bot.SendMessageAsync(metaChannelId, new LocalMessage().WithEmbed(rejectEmbed));
 
