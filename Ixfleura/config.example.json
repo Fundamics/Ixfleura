@@ -9,13 +9,30 @@
     "guild_id" : 0,
     "suggestion_id" : 0,
     "botlog_id" : 0,
-    "welcome_id" : 0
+    "welcome_id" : 0,
+    "meta_id" : 0
   },
+  
   "roles" : {
     "mod" : 0,
     "admin" : 0,
     "studying" : 0
   },
+
+  "emojis" : {
+
+    "deny" : {
+      "name" : "deny emoji name",
+      "id" : 0
+    },
+
+    "check" : {
+      "name" : "check emoji name",
+      "id" : 0
+    }
+
+  },
+  
   "database" : {
     "connection" : "postgres-connection-string"
   }
