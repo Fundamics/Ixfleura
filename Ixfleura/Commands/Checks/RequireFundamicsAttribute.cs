@@ -7,11 +7,11 @@ using Qmmands;
 
 namespace Ixfleura.Commands.Checks
 {
+    /// <summary>
+    /// A check to see if the guild where a command is executing is Fundamics.
+    /// </summary>
     public class RequireFundamicsAttribute : DiscordCheckAttribute
     {
-        public RequireFundamicsAttribute()
-        { }
-        
         public override ValueTask<CheckResult> CheckAsync(DiscordCommandContext context)
         {
             var configuration = context.Services.GetRequiredService<IConfiguration>();

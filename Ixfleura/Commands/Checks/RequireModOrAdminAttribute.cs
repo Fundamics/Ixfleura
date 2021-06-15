@@ -8,6 +8,9 @@ using Qmmands;
 
 namespace Ixfleura.Commands.Checks
 {
+    /// <summary>
+    /// A check to see if the member executing the command has the necessary roles.
+    /// </summary>
     public class RequireModOrAdminAttribute : DiscordCheckAttribute
     {
         public override ValueTask<CheckResult> CheckAsync(DiscordCommandContext context)
