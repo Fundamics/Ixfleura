@@ -105,6 +105,8 @@ namespace Ixfleura.Commands.Modules
                 .AddField("Response", reason);
 
             await Context.Bot.SendMessageAsync(metaChannelId, new LocalMessage().WithEmbed(acceptEmbed));
+
+            await _suggestionService.RemoveSuggestionAsync(suggestion);
         }
         
         [Command("reject")]
@@ -149,6 +151,8 @@ namespace Ixfleura.Commands.Modules
                 .AddField("Response", reason);
 
             await Context.Bot.SendMessageAsync(metaChannelId, new LocalMessage().WithEmbed(rejectEmbed));
+
+            await _suggestionService.RemoveSuggestionAsync(suggestion);
         }
     }
 }
