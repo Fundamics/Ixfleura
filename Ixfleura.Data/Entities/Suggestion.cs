@@ -11,7 +11,7 @@
         public int Id { get; set; }
         
         /// <summary>
-        /// The Id of the guild where the suggestion was created.
+        /// The id of the guild where the suggestion was created.
         /// </summary>
         public ulong GuildId { get; set; }
         
