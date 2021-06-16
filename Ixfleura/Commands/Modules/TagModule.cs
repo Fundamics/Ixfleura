@@ -214,7 +214,7 @@ namespace Ixfleura.Commands.Modules
         /// Validates tag names.
         /// </summary>
         /// <param name="name">
-        /// The name to verify
+        /// The name to verify.
         /// </param>
         /// <returns>
         /// A <see cref="bool"/> representing if the name is valid or not
