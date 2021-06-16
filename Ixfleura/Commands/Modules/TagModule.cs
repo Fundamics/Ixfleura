@@ -217,7 +217,7 @@ namespace Ixfleura.Commands.Modules
         /// The name to verify.
         /// </param>
         /// <returns>
-        /// A <see cref="bool"/> representing if the name is valid or not
+        /// A <see cref="bool"/> representing if the name is valid or not.
         /// </returns>
         private bool IsTagNameValid(string name)
             => _commandService
