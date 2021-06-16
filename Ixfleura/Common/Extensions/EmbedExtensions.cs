@@ -4,7 +4,7 @@ using Ixfleura.Common.Types;
 namespace Ixfleura.Common.Extensions
 {
     /// <summary>
-    /// Extension methods for <see cref="LocalEmbed"/>
+    /// Extension methods for <see cref="LocalEmbed"/>.
     /// </summary>
     public static class EmbedExtensions
     {
