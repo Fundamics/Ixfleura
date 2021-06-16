@@ -19,7 +19,7 @@ namespace Ixfleura.Data
         {
             // modelBuilder.UseValueConverterForType<Snowflake>(new ValueConverter<Snowflake, ulong>(x => x.RawValue, x => new Snowflake(x)));
             modelBuilder.Entity<Tag>().HasKey("GuildId", "Name");
-            modelBuilder.Entity<Campaign>().HasCheckConstraint("campaigns_typeid_lowercase_ck", "typeid = lower(typeid)");
+            modelBuilder.Entity<Campaign>().HasCheckConstraint("campaigns_type_lowercase_ck", "type = lower(type)");
         }
     }
 }

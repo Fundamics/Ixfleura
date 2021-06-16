@@ -19,6 +19,42 @@ namespace Ixfleura.Data.Migrations
                 .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+            modelBuilder.Entity("Ixfleura.Data.Entities.Campaign", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<decimal>("AdvocateId")
+                        .HasColumnType("numeric(20,0)")
+                        .HasColumnName("advocate_id");
+
+                    b.Property<decimal>("CandidateId")
+                        .HasColumnType("numeric(20,0)")
+                        .HasColumnName("candidate_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<decimal>("MessageId")
+                        .HasColumnType("numeric(20,0)")
+                        .HasColumnName("message_id");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("text")
+                        .HasColumnName("type");
+
+                    b.HasKey("Id")
+                        .HasName("pk_campaigns");
+
+                    b.ToTable("campaigns");
+
+                    b.HasCheckConstraint("campaigns_type_lowercase_ck", "type = lower(type)");
+                });
+
             modelBuilder.Entity("Ixfleura.Data.Entities.Suggestion", b =>
                 {
                     b.Property<int>("Id")

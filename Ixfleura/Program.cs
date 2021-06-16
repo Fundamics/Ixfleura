@@ -75,6 +75,7 @@ namespace Ixfleura
                             options.Types.Add(new CampaignTypeConfiguration
                             {
                                 Name = typeSection.GetValue<string>("name"),
+                                Enabled = typeSection.GetValue<bool>("enabled"),
                                 RoleIds = typeSection.GetSection("role_ids").GetChildren().Select(x => x.Get<ulong>()).ToArray(),
                                 RequiredRoleIds = typeSection.GetSection("required_role_ids").GetChildren().Select(x => x.Get<ulong>()).ToArray(),
                                 Duration = typeSection.GetValue<TimeSpan>("duration"),
