@@ -230,7 +230,7 @@ namespace Ixfleura.Commands.Modules
         /// Used when a tag is not found.
         /// </summary>
         /// <param name="name">
-        /// The name of the tag not found
+        /// The name of the tag not found.
         /// </param>
         private async Task<DiscordCommandResult> TagNotFoundResponse(string name)
         {
