@@ -113,7 +113,7 @@ namespace Ixfleura.Commands.Modules
         [RequireBotGuildPermissions(Permission.BanMembers)]
         public async Task<DiscordCommandResult> BanAsync(
             [Description("The id of the user to ban")] ulong id, 
-            [Description("The reason for the action"), Remainder] string reason = null)
+            [Description("The reason for the ban"), Remainder] string reason = null)
         {
             reason ??= $"Banned by action of {Context.Author.Tag}";
             
