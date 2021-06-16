@@ -30,7 +30,7 @@ namespace Ixfleura.Commands.Modules
         }
 
         /// <summary>
-        /// Creates a new suggestion and tracks it
+        /// Creates a new suggestion and tracks it.
         /// </summary>
         /// <param name="content">
         /// The suggestion to be given
