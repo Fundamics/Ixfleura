@@ -154,13 +154,13 @@ namespace Ixfleura.Commands.Modules
         }
 
         /// <summary>
-        /// Formats a <see cref="Parameter"/> for the help command
+        /// Formats a <see cref="Parameter"/> for the help command.
         /// </summary>
         /// <param name="parameter">
-        /// The parameter to be formatted
+        /// The parameter to be formatted.
         /// </param>
         /// <returns>
-        /// a string consisting of the formatted parameter
+        /// a string consisting of the formatted parameter.
         /// </returns>
         private static string FormatParameter(Parameter parameter)
         {
