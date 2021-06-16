@@ -6,6 +6,7 @@ using Disqord;
 using Disqord.Bot;
 using Disqord.Rest;
 using Ixfleura.Common.Extensions;
+using Ixfleura.Common.Globals;
 using Qmmands;
 
 namespace Ixfleura.Commands.Modules
@@ -34,6 +35,26 @@ namespace Ixfleura.Commands.Modules
 
             await msg.ModifyAsync(x => x.Content = $"Pong: {stopwatch.ElapsedMilliseconds}ms response time");
         }
+
+        /// <summary>
+        /// Get some information about Ixfleura
+        /// </summary>
+        [Command("info")]
+        [Description("Get some info about the bot")]
+        public DiscordCommandResult Info()
+        {
+            var le = new LocalEmbed()
+                .WithTitle("Ixfleura")
+                .WithDescription(IxfleuraGlobals.Description)
+                .WithIxfleuraColor()
+                .WithThumbnailUrl(Context.Bot.CurrentUser.GetAvatarUrl())
+                .AddField("Made By", $"{Mention.User(IxfleuraGlobals.OwnerId)} and " +
+                                     $"{string.Join(" and", IxfleuraGlobals.ContributorIds.Select(x => Mention.User(x)))}")
+                .AddField("Source", Markdown.Link("On GitHub", IxfleuraGlobals.GitHubRepo), true)
+                .AddField("Disqord", Markdown.Link("GitHub", Library.RepositoryUrl), true);
+            
+            return Response(le);
+        }
         
         /// <summary>
         /// A help command. 
@@ -52,7 +73,7 @@ namespace Ixfleura.Commands.Modules
             if (path.Length == 0)
             {
                 var builder = new LocalEmbed()
-                    .WithIxColor();
+                    .WithIxfleuraColor();
                 if (modules.Count != 0)
                 {
                     var aliases = modules.Select(x => x.Aliases[0])
@@ -121,7 +142,7 @@ namespace Ixfleura.Commands.Modules
                 var eb = new LocalEmbed()
                     .WithTitle(foundCommand.Name)
                     .WithDescription(foundCommand.Description ?? "No Description")
-                    .WithIxColor()
+                    .WithIxfleuraColor()
                     .AddField("Module", foundCommand.Module is null ? "Top level command" : foundCommand.Module.Name)
                     .AddField("Aliases", foundCommand.Aliases is null
                         ? "No aliases"
@@ -141,7 +162,7 @@ namespace Ixfleura.Commands.Modules
                 var eb = new LocalEmbed()
                     .WithTitle(foundModule.Name)
                     .WithDescription(foundModule.Description ?? "No Description")
-                    .WithIxColor()
+                    .WithIxfleuraColor()
                     .AddField("Submodules",
                         foundModule.Submodules.Count == 0
                             ? "No submodules"
