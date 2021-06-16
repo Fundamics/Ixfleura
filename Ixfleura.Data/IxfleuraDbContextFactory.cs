@@ -5,6 +5,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace Ixfleura.Data
 {
+    /// <summary>
+    /// The <see cref="IDesignTimeDbContextFactory{TContext}"/> for <see cref="IxfleuraDbContext"/>.
+    /// </summary>
     public class IxfleuraDbContextFactory : IDesignTimeDbContextFactory<IxfleuraDbContext>
     {
         public IxfleuraDbContext CreateDbContext(string[] args)
