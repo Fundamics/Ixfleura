@@ -105,7 +105,7 @@ namespace Ixfleura.Commands.Modules
         /// The id of the user to ban
         /// </param>
         /// <param name="reason">
-        /// The reason for which the member was banned.
+        /// The reason for the ban.
         /// </param>
         [Command("ban", "hammer")]
         [Description("Ban a user from the server")]
