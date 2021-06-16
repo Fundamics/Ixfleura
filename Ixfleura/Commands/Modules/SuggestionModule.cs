@@ -33,7 +33,7 @@ namespace Ixfleura.Commands.Modules
         /// Creates a new suggestion and tracks it.
         /// </summary>
         /// <param name="content">
-        /// The suggestion to be given
+        /// The suggestion to be given.
         /// </param>
         [Command]
         [Description("Create a new suggestion")]
