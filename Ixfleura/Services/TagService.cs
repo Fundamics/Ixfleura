@@ -40,7 +40,7 @@ namespace Ixfleura.Services
         /// <param name="guildId">
         /// The id of the guild to retrieve tags for.
         /// </param>
-        /// <returns>A list of <see cref="Tag"/>s</returns>
+        /// <returns>A list of <see cref="Tag"/>s.</returns>
         public async Task<List<Tag>> GetTagsAsync(Snowflake guildId)
         {
             await using var db = _dbContextFactory.CreateDbContext();
