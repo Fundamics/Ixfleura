@@ -107,7 +107,6 @@ namespace Ixfleura.Commands.Modules
         /// <param name="reason">
         /// The reason for which the member was banned.
         /// </param>
-        /// <returns></returns>
         [Command("ban", "hammer")]
         [Description("Ban a user from the server")]
         [RequireBotGuildPermissions(Permission.BanMembers)]
