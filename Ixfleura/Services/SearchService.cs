@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 namespace Ixfleura.Services
 {
     /// <summary>
-    /// A service to assist with accessing APIs and returning data
+    /// A service to assist with accessing APIs and returning data.
     /// </summary>
     public class SearchService : IxService
     {
