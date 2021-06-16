@@ -11,6 +11,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Ixfleura.Services
 {
+    /// <summary>
+    /// A service to assist with welcoming new members.
+    /// </summary>
     public class WelcomingService : DiscordBotService
     {
         private readonly ulong _welcomeChannelId;
@@ -27,6 +30,9 @@ namespace Ixfleura.Services
             await Client.WaitUntilReadyAsync(stoppingToken);
         }
 
+        /// <summary>
+        /// Welcomes new members by sending a message to the designated welcome channel.
+        /// </summary>
         protected override async ValueTask OnMemberJoined(MemberJoinedEventArgs e)
         {
             if (e.GuildId != _guildId)

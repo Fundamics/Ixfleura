@@ -12,6 +12,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Ixfleura.Services
 {
+    /// <summary>
+    /// A service to assist in moderation and auto-mod.
+    /// </summary>
     public class ModerationService : DiscordBotService
     {
         private readonly ulong _botLogChannelId;
@@ -23,6 +26,14 @@ namespace Ixfleura.Services
             _swears = configuration.GetSection("fundamics:swears").Get<string[]>();
         }
 
+        /// <summary>
+        /// Sends a log message to the log channel.
+        /// </summary>
+        /// <param name="offender">The offender who broke the rules.</param>
+        /// <param name="responsibleModerator">The moderator responsible for handling the action.</param>
+        /// <param name="reason">The reason for the action taken</param>
+        /// <param name="id">The id of the offender</param>
+        /// <param name="modLogType">The type of action taken</param>
         public async Task SendModLogAsync(string offender, string responsibleModerator, string reason, ulong id, ModLogType modLogType)
         {
             var logColor = modLogType.GetModLogColor();
@@ -37,6 +48,9 @@ namespace Ixfleura.Services
             await Client.SendMessageAsync(_botLogChannelId, new LocalMessage().WithEmbed(le));
         }
 
+        /// <summary>
+        /// Auto filters messages for swear words based on values present in the config
+        /// </summary>
         protected override async ValueTask OnMessageReceived(BotMessageReceivedEventArgs e)
         {
             var words = e.Message.Content.Split(new[] {' ', '?', '.'}, StringSplitOptions.TrimEntries);
