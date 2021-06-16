@@ -31,9 +31,9 @@ namespace Ixfleura.Services
         /// </summary>
         /// <param name="offender">The offender who broke the rules.</param>
         /// <param name="responsibleModerator">The moderator responsible for handling the action.</param>
-        /// <param name="reason">The reason for the action taken</param>
-        /// <param name="id">The id of the offender</param>
-        /// <param name="modLogType">The type of action taken</param>
+        /// <param name="reason">The reason for the action taken.</param>
+        /// <param name="id">The id of the offender.</param>
+        /// <param name="modLogType">The type of action taken.</param>
         public async Task SendModLogAsync(string offender, string responsibleModerator, string reason, ulong id, ModLogType modLogType)
         {
             var logColor = modLogType.GetModLogColor();
