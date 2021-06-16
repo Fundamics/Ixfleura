@@ -89,7 +89,7 @@ namespace Ixfleura.Services
         }
         
         /// <summary>
-        /// Removes a tag from the database
+        /// Removes a tag from the database.
         /// </summary>
         /// <param name="tag">The <see cref="Tag"/> to remove.</param>
         public async Task RemoveTagAsync(Tag tag)
