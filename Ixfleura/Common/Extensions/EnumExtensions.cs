@@ -21,10 +21,10 @@ namespace Ixfleura.Common.Extensions
         {
             return modLogType switch
             {
-                ModLogType.Ban => IxColors.BanColor,
-                ModLogType.Unban => IxColors.UnbanColor,
-                ModLogType.Kick => IxColors.KickColor,
-                ModLogType.Warn => IxColors.WarnColor,
+                ModLogType.Ban => IxfleuraColors.BanColor,
+                ModLogType.Unban => IxfleuraColors.UnbanColor,
+                ModLogType.Kick => IxfleuraColors.KickColor,
+                ModLogType.Warn => IxfleuraColors.WarnColor,
                 _ => Color.White
             };
         }

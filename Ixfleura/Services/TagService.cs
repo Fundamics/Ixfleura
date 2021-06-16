@@ -13,7 +13,7 @@ namespace Ixfleura.Services
     /// <summary>
     /// A service to handle tags.
     /// </summary>
-    public class TagService : IxService
+    public class TagService : IxfleuraService
     {
         private readonly IDbContextFactory<IxfleuraDbContext> _dbContextFactory;
         

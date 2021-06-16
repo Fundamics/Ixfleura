@@ -74,7 +74,7 @@ namespace Ixfleura.Commands.Modules
                 .WithTitle("Poll!")
                 .WithDescription(question)
                 .WithAuthor(Context.Author.ToString(), Context.Author.GetAvatarUrl())
-                .WithIxColor();
+                .WithIxfleuraColor();
 
             var msg = await Response(pollEmbed);
             
@@ -101,7 +101,7 @@ namespace Ixfleura.Commands.Modules
             var eb = new LocalEmbed()
                 .WithTitle(member.Tag)
                 .WithThumbnailUrl(member.GetAvatarUrl())
-                .WithColor(topRole.Color ?? IxColors.IxColor)
+                .WithColor(topRole.Color ?? IxfleuraColors.IxColor)
                 .AddField("Id", member.Id, true)
                 .AddField("Nickname", member.Nick ?? "No nickname in this guild", true)
                 .AddField("Is Bot", member.IsBot ? "Yes" : "No", true)
@@ -218,7 +218,7 @@ namespace Ixfleura.Commands.Modules
             var eb = new LocalEmbed()
                 .WithAuthor(message.Author.ToString(), message.Author.GetAvatarUrl())
                 .WithDescription(message.Content)
-                .WithIxColor()
+                .WithIxfleuraColor()
                 .WithFooter($"Id: {messageId}")
                 .WithTimestamp(message.CreatedAt());
 
@@ -239,7 +239,7 @@ namespace Ixfleura.Commands.Modules
             var eb = new LocalEmbed()
                 .WithAuthor(messageRef.Author.ToString(), messageRef.Author.GetAvatarUrl())
                 .WithDescription(messageRef.Content)
-                .WithIxColor()
+                .WithIxfleuraColor()
                 .WithFooter($"Id: {messageRef.Id}")
                 .WithTimestamp(messageRef.CreatedAt());
 

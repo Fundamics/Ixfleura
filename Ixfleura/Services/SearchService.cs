@@ -8,7 +8,7 @@ namespace Ixfleura.Services
     /// <summary>
     /// A service to assist with accessing APIs and returning data.
     /// </summary>
-    public class SearchService : IxService
+    public class SearchService : IxfleuraService
     {
         private readonly HttpClient _client;
 

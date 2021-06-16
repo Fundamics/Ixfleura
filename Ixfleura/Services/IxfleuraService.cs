@@ -6,11 +6,11 @@ namespace Ixfleura.Services
     /// <summary>
     /// Represents a base abstract class which services inherit.
     /// </summary>
-    public abstract class IxService : ILogging
+    public abstract class IxfleuraService : ILogging
     {
         public ILogger Logger { get; }
         
-        protected IxService(ILogger logger)
+        protected IxfleuraService(ILogger logger)
         {
             Logger = logger;
         }

@@ -53,7 +53,7 @@ namespace Ixfleura.Commands.Modules
             var suggestionEmbed = new LocalEmbed()
                 .WithThumbnailUrl(Context.Author.GetAvatarUrl(ImageFormat.Png))
                 .WithFooter($"Suggestion Id: {suggestion.Id}")
-                .WithIxColor()
+                .WithIxfleuraColor()
                 .AddField("Submitter", Context.Author.Tag)
                 .AddField("Suggestion", content);
 

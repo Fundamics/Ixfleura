@@ -4,6 +4,7 @@ using Disqord;
 using Disqord.Bot.Hosting;
 using Disqord.Gateway;
 using Ixfleura.Common.Extensions;
+using Ixfleura.Common.Globals;
 using Ixfleura.Data;
 using Ixfleura.Services;
 using Microsoft.EntityFrameworkCore;
@@ -45,6 +46,7 @@ namespace Ixfleura
                     bot.Intents = GatewayIntents.All;
                     bot.Activities = new[] { new LocalActivity("ixhelp", ActivityType.Playing) };
                     bot.UseMentionPrefix = true;
+                    bot.OwnerIds = new[] {IxfleuraGlobals.OwnerId};
                     bot.Prefixes = context.Configuration.GetSection("discord:prefixes").Get<string[]>();
                 })
                 .ConfigureServices((context, services) =>

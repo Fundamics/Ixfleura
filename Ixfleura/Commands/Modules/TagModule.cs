@@ -39,7 +39,7 @@ namespace Ixfleura.Commands.Modules
         public DiscordCommandResult Help()
         {
             return Response(new LocalEmbed()
-                .WithColor(IxColors.DefaultColor)
+                .WithColor(IxfleuraColors.DefaultColor)
                 .WithTitle("Tag")
                 .WithDescription("`tag [name]` - Use a tag\n" +
                                  "`tag list` - List all tags in the server\n" +
@@ -97,7 +97,7 @@ namespace Ixfleura.Commands.Modules
 
             var pages = stringPages.Select(x => new Page(
                 new LocalEmbed()
-                    .WithColor(IxColors.DefaultColor)
+                    .WithColor(IxfleuraColors.DefaultColor)
                     .WithTitle("Tags")
                     .WithDescription(x)
                     .WithFooter($"Page {stringPages.IndexOf(x) + 1} of {stringPages.Count}")))
@@ -126,7 +126,7 @@ namespace Ixfleura.Commands.Modules
                 return await TagNotFoundResponse(name);
 
             return Response(new LocalEmbed()
-                .WithColor(IxColors.DefaultColor)
+                .WithColor(IxfleuraColors.DefaultColor)
                 .WithTitle($"Tag: {tag.Name}")
                 .AddField("Uses", tag.Uses, true)
                 .AddField("Created at", $"{tag.CreatedAt:yyyy-MM-dd}", true)

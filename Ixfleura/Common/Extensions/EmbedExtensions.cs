@@ -17,7 +17,7 @@ namespace Ixfleura.Common.Extensions
         /// <returns>
         /// The LocalEmbed with the color added.
         /// </returns>
-        public static LocalEmbed WithIxColor(this LocalEmbed le)
-            => le.WithColor(IxColors.IxColor);
+        public static LocalEmbed WithIxfleuraColor(this LocalEmbed le)
+            => le.WithColor(IxfleuraColors.IxColor);
     }
 }

@@ -11,7 +11,7 @@ namespace Ixfleura.Common.Extensions
     public static class ServiceCollectionExtensions
     {
         /// <summary>
-        /// Adds all services marked as an <see cref="IxService"/> to the service collection.
+        /// Adds all services marked as an <see cref="IxfleuraService"/> to the service collection.
         /// </summary>
         /// <param name="services">
         /// The <see cref="IServiceCollection"/> to add to.
@@ -21,7 +21,7 @@ namespace Ixfleura.Common.Extensions
         /// </returns>
         public static IServiceCollection AddIxServices(this IServiceCollection services)
         {
-            var baseType = typeof(IxService);
+            var baseType = typeof(IxfleuraService);
             var types = Assembly.GetExecutingAssembly().GetTypes()
                 .Where(x => x.IsAssignableTo(baseType) && !x.IsAbstract);
 

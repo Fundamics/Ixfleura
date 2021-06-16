@@ -13,7 +13,7 @@ namespace Ixfleura.Services
     /// <summary>
     /// A service to handle suggestions.
     /// </summary>
-    public class SuggestionService : IxService
+    public class SuggestionService : IxfleuraService
     {
         private readonly IDbContextFactory<IxfleuraDbContext> _dbContextFactory;
         private readonly IConfiguration _configuration;
