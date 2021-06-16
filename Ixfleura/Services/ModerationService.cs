@@ -49,7 +49,7 @@ namespace Ixfleura.Services
         }
 
         /// <summary>
-        /// Auto filters messages for swear words based on values present in the config
+        /// Auto filters messages for swear words based on values present in the config.
         /// </summary>
         protected override async ValueTask OnMessageReceived(BotMessageReceivedEventArgs e)
         {
