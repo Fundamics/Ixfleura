@@ -5,8 +5,20 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Ixfleura.Common.Extensions
 {
+    /// <summary>
+    /// Extensions for <see cref="IServiceCollection"/>.
+    /// </summary>
     public static class ServiceCollectionExtensions
     {
+        /// <summary>
+        /// Adds all services marked as an <see cref="IxService"/> to the service collection.
+        /// </summary>
+        /// <param name="services">
+        /// The <see cref="IServiceCollection"/> to add to.
+        /// </param>
+        /// <returns>
+        /// The service collection.
+        /// </returns>
         public static IServiceCollection AddIxServices(this IServiceCollection services)
         {
             var baseType = typeof(IxService);
