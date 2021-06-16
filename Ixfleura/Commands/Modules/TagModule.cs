@@ -227,7 +227,7 @@ namespace Ixfleura.Commands.Modules
                     .All(y => !string.Equals(y, name, StringComparison.CurrentCultureIgnoreCase)));
 
         /// <summary>
-        /// Used when a tag is not found
+        /// Used when a tag is not found.
         /// </summary>
         /// <param name="name">
         /// The name of the tag not found
