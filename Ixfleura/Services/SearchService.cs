@@ -40,7 +40,7 @@ namespace Ixfleura.Services
         /// Strips html tags from the given source.
         /// </summary>
         /// <param name="source">The string to clean tags from.</param>
-        /// <returns>The cleaned string</returns>
+        /// <returns>The cleaned string.</returns>
         private string StripHtmlTags(string source)
         {
             var array = new char[source.Length];
