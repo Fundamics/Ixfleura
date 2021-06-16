@@ -1,19 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Disqord;
 using Disqord.Bot;
-using Disqord.Http;
 using Disqord.Rest;
 using Ixfleura.Common.Extensions;
 using Qmmands;
 
 namespace Ixfleura.Commands.Modules
 {
+    
+    /// <summary>
+    /// General commands to give some info.
+    /// </summary>
+    [Name("General")]
+    [Description("A bunch of general commands")]
     public class GeneralModule : DiscordModuleBase
     {
+        /// <summary>
+        /// Gets the latency of the client.
+        /// </summary>
+        /// <remarks>
+        /// Uses a <see cref="System.Diagnostics.Stopwatch"/> to mark the time taken to send a message.
+        /// </remarks>
         [Command("ping")]
         [Description("play some ping-pong!")]
         public async Task Ping()
@@ -24,10 +34,16 @@ namespace Ixfleura.Commands.Modules
 
             await msg.ModifyAsync(x => x.Content = $"Pong: {stopwatch.ElapsedMilliseconds}ms response time");
         }
-
+        
+        /// <summary>
+        /// A help command. 
+        /// </summary>
+        /// <param name="path">
+        /// The path to the command or module.
+        /// </param>
         [Command("help")]
         [Description("Receive help")]
-        public DiscordCommandResult Help(params string[] path)
+        public DiscordCommandResult Help([Description("The path to the command or module")] params string[] path)
         {
             var service = Context.Bot.Commands;
             var topLevelModules = service.TopLevelModules.ToArray();
@@ -81,6 +97,7 @@ namespace Ixfleura.Commands.Modules
 
                 if (foundModule != null)
                     continue;
+                
                 foreach (var command in commands)
                 {
                     foreach (var alias in command.Aliases)
@@ -136,6 +153,15 @@ namespace Ixfleura.Commands.Modules
             }
         }
 
+        /// <summary>
+        /// Formats a <see cref="Parameter"/> for the help command.
+        /// </summary>
+        /// <param name="parameter">
+        /// The parameter to be formatted.
+        /// </param>
+        /// <returns>
+        /// a string consisting of the formatted parameter.
+        /// </returns>
         private static string FormatParameter(Parameter parameter)
         {
             string format;

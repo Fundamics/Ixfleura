@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ixfleura.Data
 {
+    /// <summary>
+    /// The <see cref="DbContext"/> for IxFleura.
+    /// </summary>
     public class IxfleuraDbContext : DbContext
     {
         public IxfleuraDbContext(DbContextOptions<IxfleuraDbContext> options) : base(options)

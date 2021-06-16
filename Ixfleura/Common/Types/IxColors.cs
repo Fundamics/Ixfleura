@@ -2,6 +2,9 @@
 
 namespace Ixfleura.Common.Types
 {
+    /// <summary>
+    /// Hosts all the colors used across embeds.
+    /// </summary>
     public static class IxColors
     {
         public static readonly Color IxColor = new Color(36, 36, 36);

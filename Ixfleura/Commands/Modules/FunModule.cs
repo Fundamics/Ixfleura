@@ -16,6 +16,11 @@ using Qmmands;
 
 namespace Ixfleura.Commands.Modules
 {
+    /// <summary>
+    /// Miscellaneous and fun commands module.
+    /// </summary>
+    [Name("Fun")]
+    [Description("Fun and miscellaneous commands")]
     public class FunModule : DiscordGuildModuleBase
     {
         private static readonly IReadOnlyList<string> EightBallResponses = new[]
@@ -54,9 +59,15 @@ namespace Ixfleura.Commands.Modules
             _random = random;
         }
         
+        /// <summary>
+        /// Creates a poll.
+        /// </summary>
+        /// <param name="question">
+        /// The poll question to ask.
+        /// </param>
         [Command("poll")]
         [Description("Create a poll!")]
-        public async Task PollAsync([Remainder] string question)
+        public async Task PollAsync([Description("The question to ask") ,Remainder] string question)
         {
             await Context.Message.DeleteAsync();
             var pollEmbed = new LocalEmbed()
@@ -72,9 +83,15 @@ namespace Ixfleura.Commands.Modules
             await msg.AddReactionAsync(new LocalEmoji("🤷"));
         }
         
+        /// <summary>
+        /// Gets information about a particular user or yourself.
+        /// </summary>
+        /// <param name="member">
+        /// The member to receive information about. Grabs information about yourself is no user is passed.
+        /// </param>
         [Command("whois", "userinfo")]
         [Description("Get info about yourself or someone else")]
-        public DiscordCommandResult UserInfo([Description("The user for whom you wish to receive information")] IMember member = null)
+        public DiscordCommandResult UserInfo( [Description("The user for whom you wish to receive information")] IMember member = null)
         {
             member ??= Context.Author;
             
@@ -94,6 +111,9 @@ namespace Ixfleura.Commands.Modules
             return Reply(eb);
         }
 
+        /// <summary>
+        /// Grabs a trivia questions using the <see cref="Ixfleura.Services.SearchService"/> and uses interactivity to wait for an answer.
+        /// </summary>
         [Command("trivia")]
         [Description("Play some trivia questions!")]
         public async Task<DiscordCommandResult> TriviaAsync()
@@ -116,20 +136,35 @@ namespace Ixfleura.Commands.Modules
             return Response("Incorrect answer!");
         }
 
+        /// <summary>
+        /// Repeats the text provided.
+        /// </summary>
+        /// <param name="echoText">
+        /// The text to repeat.
+        /// </param>
         [Command("echo", "say", "repeat")]
         [Description("I repeat whatever you say")]
-        public DiscordCommandResult Echo([Remainder] string echoText)
+        public DiscordCommandResult Echo([Name("echo text"), Description("The text to repeat"), Remainder] string echoText)
             => Reply(echoText);
 
+        /// <summary>
+        /// Gives a random choice out of the options to be provided.
+        /// </summary>
+        /// <param name="choiceOptions">
+        /// The string from which the options are to be parsed.
+        /// </param>
         [Command("choose", "choice")]
         [Description("Choose from some options")]
-        public DiscordCommandResult Choice([Remainder] string choiceOptions)
+        public DiscordCommandResult Choice([Name("options"), Description("The full string of choices"), Remainder] string choiceOptions)
         {
             var choices = choiceOptions.Split('|', StringSplitOptions.TrimEntries);
 
             return Response(choices.Length < 2 ? "I need more options to choose from" : choices[_random.Next(choices.Length)]);
         }
 
+        /// <summary>
+        /// Flips a coin.
+        /// </summary>
         [Command("flip", "coin")]
         [Description("Do a coin flip")]
         public DiscordCommandResult CoinFlip()
@@ -138,9 +173,15 @@ namespace Ixfleura.Commands.Modules
             return Response(num == 0 ? "Heads" : "Tails");
         }
         
+        /// <summary>
+        /// Quotes a message's content.
+        /// </summary>
+        /// <param name="quoteUrl">
+        /// The jump link of the message.
+        /// </param>
         [Command("quote")]
         [Description("Quote a message")]
-        public async Task<DiscordCommandResult> QuoteMessageAsync(string quoteUrl)
+        public async Task<DiscordCommandResult> QuoteMessageAsync([Name("jump url"), Description("The message jump link")] string quoteUrl)
         {
             var regex = Discord.MessageJumpLinkRegex;
 
@@ -184,6 +225,9 @@ namespace Ixfleura.Commands.Modules
             return Response(eb);
         }
 
+        /// <summary>
+        /// Quotes a message's content.
+        /// </summary>
         [Command("quote")]
         [Description("Quote a message")]
         public DiscordCommandResult QuoteMessageAsync()
@@ -202,9 +246,15 @@ namespace Ixfleura.Commands.Modules
             return Response(eb);
         }
         
+        /// <summary>
+        /// Gets a response from the magic 
+        /// </summary>
+        /// <param name="question">
+        /// The question to ask.
+        /// </param>
         [Command("8ball", "eightball")]
         [Description("Consult the magic 8ball")]
-        public DiscordCommandResult EightBall([Remainder] string question)
+        public DiscordCommandResult EightBall([Description("The question to ask"), Remainder] string question)
             => Response(EightBallResponses[_random.Next(0, EightBallResponses.Count)]);
     }
 }

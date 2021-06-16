@@ -9,6 +9,11 @@ using Qmmands;
 
 namespace Ixfleura.Commands.Modules
 {
+    /// <summary>
+    /// Studying commands module.
+    /// </summary>
+    [Name("Studying")]
+    [Description("Studying related commands")]
     public class StudyModule : DiscordGuildModuleBase
     {
         private readonly IConfiguration _configuration;
@@ -18,6 +23,9 @@ namespace Ixfleura.Commands.Modules
             _configuration = configuration;
         }
         
+        /// <summary>
+        /// Mark yourself as studying. Use again to remove the studying role.
+        /// </summary>
         [Command("studying")]
         [Description("Mark yourself as studying. Use again to remove the studying role")]
         [RequireFundamics]

@@ -5,6 +5,9 @@ using Newtonsoft.Json.Linq;
 
 namespace Ixfleura.Services
 {
+    /// <summary>
+    /// A service to assist with accessing APIs and returning data.
+    /// </summary>
     public class SearchService : IxService
     {
         private readonly HttpClient _client;
@@ -14,6 +17,12 @@ namespace Ixfleura.Services
             _client = client;
         }
 
+        /// <summary>
+        /// Gets a trivia question.
+        /// </summary>
+        /// <returns>
+        /// A tuple consisting of the cleaned answer and question.
+        /// </returns>
         public async Task<(string question, string answer)> GetTriviaQuestionAsync()
         {
             var response = await _client.GetStringAsync("https://jservice.io/api/random");
@@ -27,6 +36,11 @@ namespace Ixfleura.Services
             return (question, cleanAnswer);
         }
 
+        /// <summary>
+        /// Strips html tags from the given source.
+        /// </summary>
+        /// <param name="source">The string to clean tags from.</param>
+        /// <returns>The cleaned string.</returns>
         private string StripHtmlTags(string source)
         {
             var array = new char[source.Length];
