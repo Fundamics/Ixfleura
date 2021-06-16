@@ -12,6 +12,8 @@ namespace Ixfleura.Commands.Modules
     /// <summary>
     /// Studying commands module.
     /// </summary>
+    [Name("Studying")]
+    [Description("Studying related commands")]
     public class StudyModule : DiscordGuildModuleBase
     {
         private readonly IConfiguration _configuration;

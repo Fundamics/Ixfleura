@@ -12,6 +12,8 @@ namespace Ixfleura.Commands.Modules
     /// <summary>
     /// Moderation commands module.
     /// </summary>
+    [Name("Moderation")]
+    [Description("Moderation commands")]
     [RequireModOrAdmin]
     public class ModerationModule : DiscordGuildModuleBase
     {
@@ -34,8 +36,8 @@ namespace Ixfleura.Commands.Modules
         [Description("Kick a user from the server")]
         [RequireBotGuildPermissions(Permission.KickMembers)]
         public async Task<DiscordCommandResult> KickAsync(
-            [RequireBotHierarchy] IMember member,
-            [Remainder] string reason = null)
+            [RequireBotHierarchy, Description("The member to kick")] IMember member,
+            [Description("The reason for the action"), Remainder] string reason = null)
         {
             reason ??= $"Kicked by action of {Context.Author.Tag}";
 
@@ -84,8 +86,8 @@ namespace Ixfleura.Commands.Modules
         [Description("Ban a user from the server")]
         [RequireBotGuildPermissions(Permission.BanMembers)]
         public async Task<DiscordCommandResult> BanAsync(
-            IMember member, 
-            [Remainder] string reason = null)
+            [RequireBotHierarchy, Description("The member to ban")] IMember member, 
+            [Description("The reason for the action"), Remainder] string reason = null)
         {
             reason ??= $"Banned by action of {Context.Author.Tag}";
             
@@ -110,8 +112,8 @@ namespace Ixfleura.Commands.Modules
         [Description("Ban a user from the server")]
         [RequireBotGuildPermissions(Permission.BanMembers)]
         public async Task<DiscordCommandResult> BanAsync(
-            ulong id, 
-            [Remainder] string reason = null)
+            [Description("The id of the user to ban")] ulong id, 
+            [Description("The reason for the action"), Remainder] string reason = null)
         {
             reason ??= $"Banned by action of {Context.Author.Tag}";
             

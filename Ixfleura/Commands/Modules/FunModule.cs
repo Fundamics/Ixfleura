@@ -19,6 +19,8 @@ namespace Ixfleura.Commands.Modules
     /// <summary>
     /// Miscellaneous and fun commands module.
     /// </summary>
+    [Name("Fun")]
+    [Description("Fun and miscellaneous commands")]
     public class FunModule : DiscordGuildModuleBase
     {
         private static readonly IReadOnlyList<string> EightBallResponses = new[]
@@ -65,7 +67,7 @@ namespace Ixfleura.Commands.Modules
         /// </param>
         [Command("poll")]
         [Description("Create a poll!")]
-        public async Task PollAsync([Remainder] string question)
+        public async Task PollAsync([Description("The question to ask") ,Remainder] string question)
         {
             await Context.Message.DeleteAsync();
             var pollEmbed = new LocalEmbed()
@@ -142,7 +144,7 @@ namespace Ixfleura.Commands.Modules
         /// </param>
         [Command("echo", "say", "repeat")]
         [Description("I repeat whatever you say")]
-        public DiscordCommandResult Echo([Remainder] string echoText)
+        public DiscordCommandResult Echo([Name("echo text"), Description("The text to repeat"), Remainder] string echoText)
             => Reply(echoText);
 
         /// <summary>
@@ -153,7 +155,7 @@ namespace Ixfleura.Commands.Modules
         /// </param>
         [Command("choose", "choice")]
         [Description("Choose from some options")]
-        public DiscordCommandResult Choice([Remainder] string choiceOptions)
+        public DiscordCommandResult Choice([Name("options"), Description("The full string of choices"), Remainder] string choiceOptions)
         {
             var choices = choiceOptions.Split('|', StringSplitOptions.TrimEntries);
 
@@ -179,7 +181,7 @@ namespace Ixfleura.Commands.Modules
         /// </param>
         [Command("quote")]
         [Description("Quote a message")]
-        public async Task<DiscordCommandResult> QuoteMessageAsync(string quoteUrl)
+        public async Task<DiscordCommandResult> QuoteMessageAsync([Name("jump url"), Description("The message jump link")] string quoteUrl)
         {
             var regex = Discord.MessageJumpLinkRegex;
 
@@ -252,7 +254,7 @@ namespace Ixfleura.Commands.Modules
         /// </param>
         [Command("8ball", "eightball")]
         [Description("Consult the magic 8ball")]
-        public DiscordCommandResult EightBall([Remainder] string question)
+        public DiscordCommandResult EightBall([Description("The question to ask"), Remainder] string question)
             => Response(EightBallResponses[_random.Next(0, EightBallResponses.Count)]);
     }
 }

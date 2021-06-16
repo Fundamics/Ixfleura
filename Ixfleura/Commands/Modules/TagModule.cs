@@ -16,6 +16,8 @@ namespace Ixfleura.Commands.Modules
     /// <summary>
     /// Tag related commands.
     /// </summary>
+    [Name("Tag")]
+    [Description("Tag related commands")]
     [Group("tag")]
     [RequireFundamics]
     public class TagModule : DiscordGuildModuleBase
@@ -33,6 +35,7 @@ namespace Ixfleura.Commands.Modules
         /// Get help info about tags.
         /// </summary>
         [Command]
+        [Description("Get tag help")]
         public DiscordCommandResult Help()
         {
             return Response(new LocalEmbed()
@@ -53,6 +56,7 @@ namespace Ixfleura.Commands.Modules
         /// The name of the tag to get.
         /// </param>
         [Command]
+        [Description("Grab a tag")]
         public async Task<DiscordCommandResult> TagAsync([Remainder] string name)
         {
             var tag = await _tagService.GetTagAsync(Context.GuildId, name);
@@ -65,9 +69,10 @@ namespace Ixfleura.Commands.Modules
         }
 
         /// <summary>
-        /// List all the tags of this server.
+        /// List all the tags of this guild.
         /// </summary>
         [Command("list", "all")]
+        [Description("List all the tags of this server")]
         public async Task<DiscordCommandResult> ListTagsAsync()
         {
             var tags = await _tagService.GetTagsAsync(Context.GuildId);
@@ -113,6 +118,7 @@ namespace Ixfleura.Commands.Modules
         /// The name of the tag.
         /// </param>
         [Command("info", "about")]
+        [Description("Get info about a particular tag")]
         public async Task<DiscordCommandResult> TagInfoAsync([Remainder] string name)
         {
             var tag = await _tagService.GetTagAsync(Context.GuildId, name);
@@ -137,6 +143,7 @@ namespace Ixfleura.Commands.Modules
         /// The content of the tag.
         /// </param>
         [Command("create", "add")]
+        [Description("Create a new tag")]
         [RequireModOrAdmin]
         public async Task<DiscordCommandResult> CreateTagAsync(string name, [Remainder] string value)
         {
@@ -168,6 +175,7 @@ namespace Ixfleura.Commands.Modules
         /// The new content of the tag.
         /// </param>
         [Command("edit", "update")]
+        [Description("Edit a tag")]
         [RequireModOrAdmin]
         public async Task<DiscordCommandResult> EditTagAsync(string name, [Remainder] string content)
         {
@@ -189,6 +197,7 @@ namespace Ixfleura.Commands.Modules
         /// The name of the tag.
         /// </param>
         [Command("remove", "delete")]
+        [Description("Delete a tag")]
         [RequireModOrAdmin]
         public async Task<DiscordCommandResult> RemoveTagAsync([Remainder] string name)
         {

@@ -14,6 +14,8 @@ namespace Ixfleura.Commands.Modules
     /// <summary>
     /// General commands to give some info.
     /// </summary>
+    [Name("General")]
+    [Description("A bunch of general commands")]
     public class GeneralModule : DiscordModuleBase
     {
         /// <summary>
@@ -41,7 +43,7 @@ namespace Ixfleura.Commands.Modules
         /// </param>
         [Command("help")]
         [Description("Receive help")]
-        public DiscordCommandResult Help(params string[] path)
+        public DiscordCommandResult Help([Description("The path to the command or module")] params string[] path)
         {
             var service = Context.Bot.Commands;
             var topLevelModules = service.TopLevelModules.ToArray();
@@ -95,6 +97,7 @@ namespace Ixfleura.Commands.Modules
 
                 if (foundModule != null)
                     continue;
+                
                 foreach (var command in commands)
                 {
                     foreach (var alias in command.Aliases)
