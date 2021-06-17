@@ -28,20 +28,21 @@ namespace Ixfleura.Commands.Modules
             if (campaignTypeConfig is null)
                 return Response($"I couldn't find a campaign type with the name \"{campaignType}\"");
             
-            if (campaignTypeConfig.Enabled)
+            if (!campaignTypeConfig.Enabled)
                 return Response($"The {campaignType} campaign is currently disabled");
             
             if(campaignTypeConfig.RoleIds.All(roleId => candidate.RoleIds.Contains(roleId)))
                 return Response($"{candidate} already has all roles for the {campaignType} campaign");
 
-            if (campaignTypeConfig.RequiredRoleIds.All(roleId => !candidate.RoleIds.Contains(roleId)))
+            if (campaignTypeConfig.RequiredRoleIds.Any(roleId => !candidate.RoleIds.Contains(roleId)))
                 return Response($"{candidate} is not eligible for the {campaignType} campaign");
 
             var ongoingCampaigns = await _campaignService.GetCampaignsForCandidateAsync(candidate.Id);
             if (ongoingCampaigns.Any(x => x.Type == campaignType.ToLower()))
                 return Response($"A {campaignType} campaign is already ongoing for {candidate}");
 
-            return Response("Ok");
+            await _campaignService.CreateCampaignAsync(candidate, Context.Author, campaignTypeConfig);
+            return Response("The campaign has been started!");
         }
     }
 }
