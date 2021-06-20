@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Disqord;
 using Disqord.Bot;
+using Ixfleura.Commands.Checks;
 using Ixfleura.Common.Configuration;
 using Ixfleura.Services;
 using Microsoft.Extensions.Options;
@@ -43,6 +44,18 @@ namespace Ixfleura.Commands.Modules
 
             await _campaignService.CreateCampaignAsync(candidate, Context.Author, campaignTypeConfig);
             return Response("The campaign has been started!");
+        }
+        
+        [RequireModOrAdmin]
+        [Command("cancel")]
+        public async Task<DiscordCommandResult> CancelAsync(int campaignId, [Remainder] string reason = "No reason provided")
+        {
+            var campaign = await _campaignService.GetCampaignAsync(campaignId);
+            if(campaign is null)
+                return Response($"I couldn't find a campaign with the id {campaignId}");
+
+            await _campaignService.CancelCampaignAsync(campaign, Context.Author, reason);
+            return Response("The campaign has been cancelled");
         }
     }
 }
