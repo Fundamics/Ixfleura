@@ -57,19 +57,45 @@ namespace Ixfleura.Services
                     throw new InvalidOperationException($"There are two or more campaign types configured with the name \"{type.Name}\".");
         }
 
+        /// <summary>
+        /// Gets a list of active campaigns for a candidate.
+        /// </summary>
+        /// <param name="candidateId">
+        /// The id of the candidate to fetch campaigns for.
+        /// </param>
+        /// <returns>A list of <see cref="Campaign"/>s.</returns>
         public async Task<List<Campaign>> GetCampaignsForCandidateAsync(ulong candidateId)
         {
             await using var db = _dbContextFactory.CreateDbContext();
             return await db.Campaigns.Where(x => x.CandidateId == candidateId).ToListAsync();
         }
         
+        /// <summary>
+        /// Gets a campaign by its id.
+        /// </summary>
+        /// <param name="id">
+        /// The id of the campaign to get.
+        /// </param>
+        /// <returns>The <see cref="Campaign"/> with the id provided.</returns>
         public async Task<Campaign> GetCampaignAsync(int id)
         {
             await using var db = _dbContextFactory.CreateDbContext();
             return await db.Campaigns.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<Campaign> CreateCampaignAsync(IMember candidate, IMember advocate, CampaignTypeConfiguration campaignType)
+        /// <summary>
+        /// Created a new campaign.
+        /// </summary>
+        /// <param name="candidate">
+        /// The candidate of the campaign.
+        /// </param>
+        /// <param name="advocate">
+        /// The member which created the campaign.
+        /// </param>
+        /// <param name="campaignType">
+        /// The type of the campaign.
+        /// </param>
+        public async Task CreateCampaignAsync(IMember candidate, IMember advocate, CampaignTypeConfiguration campaignType)
         {
             var campaign = new Campaign
             {
@@ -128,10 +154,20 @@ namespace Ixfleura.Services
             {
                 _ = EndCampaignAsync(campaign, campaignType);
             }
-            
-            return campaign;
         }
 
+        /// <summary>
+        /// Cancels a campaign.
+        /// </summary>
+        /// <param name="campaign">
+        /// The campaign to cancel.
+        /// </param>
+        /// <param name="canceller">
+        /// The member which cancelled the campaign.
+        /// </param>
+        /// <param name="reason">
+        /// The reason the campaign was cancelled.
+        /// </param>
         public async Task CancelCampaignAsync(Campaign campaign, IMember canceller, string reason)
         {
             var timer = _timers.First(x => x.Item1 == campaign.Id).Item2;
@@ -167,6 +203,9 @@ namespace Ixfleura.Services
                     ));
         }
         
+        /// <summary>
+        /// Schedules all campaigns in the database to be ended.
+        /// </summary>
         private async Task ScheduleCampaignsAsync()
         {
             await _client.WaitUntilReadyAsync(new CancellationToken());
@@ -200,6 +239,15 @@ namespace Ixfleura.Services
             }
         }
 
+        /// <summary>
+        /// Ends a campaign.
+        /// </summary>
+        /// <param name="campaign">
+        /// The campaign to end.
+        /// </param>
+        /// <param name="campaignType">
+        /// The type of the campaign.
+        /// </param>
         private async Task EndCampaignAsync(Campaign campaign, CampaignTypeConfiguration campaignType)
         {
             var message = await _client.FetchMessageAsync(_config.ChannelId, campaign.MessageId);
@@ -253,7 +301,7 @@ namespace Ixfleura.Services
             
             await _client.SendMessageAsync(_config.LogChannelId, GetCampaignEndedMessage(true, campaign, campaignType, candidate, advocate, totalVotes, ratio));
         }
-
+        
         private LocalMessage GetCampaignEndedMessage(
             bool accepted,
             Campaign campaign,

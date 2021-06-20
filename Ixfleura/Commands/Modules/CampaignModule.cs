@@ -22,7 +22,17 @@ namespace Ixfleura.Commands.Modules
             _campaignService = campaignService;
         }
 
+        /// <summary>
+        /// Starts a new campaign.
+        /// </summary>
+        /// <param name="candidate">
+        /// The candidate of the campaign.
+        /// </param>
+        /// /// <param name="campaignType">
+        /// The type of the campaign.
+        /// </param>
         [Command("start")]
+        [Description("Start a new campaign")]
         public async Task<DiscordCommandResult> StartAsync([RequireNotBot] IMember candidate, [Remainder] string campaignType)
         {
             var campaignTypeConfig = _config.Types.FirstOrDefault(x => x.Name.ToLower() == campaignType.ToLower());
@@ -46,9 +56,21 @@ namespace Ixfleura.Commands.Modules
             return Response("The campaign has been started!");
         }
         
-        [RequireModOrAdmin]
+        /// <summary>
+        /// Cancels a campaign.
+        /// </summary>
+        /// <param name="campaignId">
+        /// The id of the campaign to cancel.
+        /// </param>
+        /// /// <param name="reason">
+        /// The reason for the campaign being cancelled.
+        /// </param>
         [Command("cancel")]
-        public async Task<DiscordCommandResult> CancelAsync(int campaignId, [Remainder] string reason = "No reason provided")
+        [Description("Cancel a campaign")]
+        [RequireModOrAdmin]
+        public async Task<DiscordCommandResult> CancelAsync(
+            [Description("The id of the campaign to cancel")] int campaignId, 
+            [Description("The reason for the campaign being cancelled"), Remainder] string reason = "No reason provided")
         {
             var campaign = await _campaignService.GetCampaignAsync(campaignId);
             if(campaign is null)
