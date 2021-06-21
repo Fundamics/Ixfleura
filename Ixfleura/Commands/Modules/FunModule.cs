@@ -125,7 +125,11 @@ namespace Ixfleura.Commands.Modules
             var input = await Context.Channel.WaitForMessageAsync(x =>
                 x.ChannelId == Context.ChannelId && x.Member.Id == Context.Author.Id);
 
+            if (input.Message.Content is null)
+                return Response("You didn't give an answer");
+            
             var userAnswer = input.Message.Content.ToLower();
+
             var res = Fuzz.Ratio(answer, userAnswer);
             
             if (userAnswer == answer)
@@ -133,7 +137,7 @@ namespace Ixfleura.Commands.Modules
             if (res >= 70)
                 return Response("Close answer! you're correct!");
 
-            return Response("Incorrect answer!");
+            return Response($"Incorrect answer!\nCorrect Answer is: {answer}");
         }
 
         /// <summary>
