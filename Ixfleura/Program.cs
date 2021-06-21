@@ -46,7 +46,6 @@ namespace Ixfleura
                 {
                     bot.Token = context.Configuration["discord:token"];
                     bot.Intents = GatewayIntents.All;
-                    bot.Activities = new[] { new LocalActivity("ixhelp", ActivityType.Playing) };
                     bot.UseMentionPrefix = true;
                     bot.OwnerIds = new[] {IxfleuraGlobals.OwnerId};
                     bot.Prefixes = context.Configuration.GetSection("discord:prefixes").Get<string[]>();
