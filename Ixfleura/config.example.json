@@ -1,7 +1,8 @@
 ﻿{
   "discord" : {
     "token" : "your token",
-    "prefixes" : ["ix", "-"]
+    "prefixes" : ["ix", "-"],
+    "status_reset" : 1
   },
 
   "fundamics" : {
