@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Disqord;
 using Disqord.Bot;
 using Disqord.Rest;
+using Ixfleura.Commands.Bases.ViewBases;
 using Ixfleura.Common.Extensions;
 using Ixfleura.Common.Globals;
 using Qmmands;
@@ -42,19 +43,8 @@ namespace Ixfleura.Commands.Modules
         [Command("info")]
         [Description("Get some info about the bot")]
         public DiscordCommandResult Info()
-        {
-            var le = new LocalEmbed()
-                .WithTitle("Ixfleura")
-                .WithDescription(IxfleuraGlobals.Description)
-                .WithIxfleuraColor()
-                .WithThumbnailUrl(Context.Bot.CurrentUser.GetAvatarUrl())
-                .AddField("Made By", $"{Mention.User(IxfleuraGlobals.OwnerId)} and " +
-                                     $"{string.Join(" and", IxfleuraGlobals.ContributorIds.Select(x => Mention.User(x)))}")
-                .AddField("Source", Markdown.Link("On GitHub", IxfleuraGlobals.GitHubRepo), true)
-                .AddField("Disqord", Markdown.Link("GitHub", Library.RepositoryUrl), true);
-            
-            return Response(le);
-        }
+            => View(new InfoView());
+        
         
         /// <summary>
         /// A help command. 
