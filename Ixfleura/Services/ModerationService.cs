@@ -45,7 +45,7 @@ namespace Ixfleura.Services
                 .WithFooter($"ID: {id}")
                 .WithTimestamp(DateTimeOffset.UtcNow);
 
-            await Client.SendMessageAsync(_botLogChannelId, new LocalMessage().WithEmbed(le));
+            await Client.SendMessageAsync(_botLogChannelId, new LocalMessage().WithEmbeds(le));
         }
 
         /// <summary>

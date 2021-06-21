@@ -95,8 +95,7 @@ namespace Ixfleura.Commands.Modules
             if (!string.IsNullOrWhiteSpace(current))
                 stringPages.Add(current[..^2]);
 
-            var pages = stringPages.Select(x => new Page(
-                new LocalEmbed()
+            var pages = stringPages.Select(x => new Page().WithEmbeds(                new LocalEmbed()
                     .WithColor(IxfleuraColors.DefaultColor)
                     .WithTitle("Tags")
                     .WithDescription(x)
@@ -106,7 +105,7 @@ namespace Ixfleura.Commands.Modules
             return pages.Count switch
             {
                 0 => Response("There are no tags for this server."),
-                1 => Response(pages[0].Embed),
+                1 => Response(pages[0].Embeds[0]),
                 _ => Pages(pages)
             };
         }

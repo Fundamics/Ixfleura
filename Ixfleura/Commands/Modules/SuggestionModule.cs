@@ -58,7 +58,7 @@ namespace Ixfleura.Commands.Modules
                 .AddField("Suggestion", content);
 
             // for testing just change this to Context.ChannelId
-            var suggestionMessage = await Context.Bot.SendMessageAsync(suggestionChannelId, new LocalMessage().WithEmbed(suggestionEmbed));
+            var suggestionMessage = await Context.Bot.SendMessageAsync(suggestionChannelId, new LocalMessage().WithEmbeds(suggestionEmbed));
 
             var (denyEmoji, checkEmoji) = _suggestionService.GetSuggestionEmojis();
 
@@ -128,7 +128,7 @@ namespace Ixfleura.Commands.Modules
                 .AddField("Accepted by", Context.Author.Mention)
                 .AddField("Response", response);
 
-            await Context.Bot.SendMessageAsync(metaChannelId, new LocalMessage().WithEmbed(acceptEmbed));
+            await Context.Bot.SendMessageAsync(metaChannelId, new LocalMessage().WithEmbeds(acceptEmbed));
 
             await _suggestionService.RemoveSuggestionAsync(suggestion);
         }
@@ -186,7 +186,7 @@ namespace Ixfleura.Commands.Modules
                 .AddField("Rejected by", Context.Author.Mention)
                 .AddField("Response", response);
 
-            await Context.Bot.SendMessageAsync(metaChannelId, new LocalMessage().WithEmbed(rejectEmbed));
+            await Context.Bot.SendMessageAsync(metaChannelId, new LocalMessage().WithEmbeds(rejectEmbed));
 
             await _suggestionService.RemoveSuggestionAsync(suggestion);
         }

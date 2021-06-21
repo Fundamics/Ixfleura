@@ -111,7 +111,7 @@ namespace Ixfleura.Services
 
             var message = await _client.SendMessageAsync(_config.ChannelId, 
                 new LocalMessage()
-                    .WithEmbed(
+                    .WithEmbeds(
                         new LocalEmbed()
                         .WithAuthor(candidate)
                         .WithTitle($"Campaign for {campaignType.Name}")
@@ -187,7 +187,7 @@ namespace Ixfleura.Services
             await _client.SendMessageAsync(_config.LogChannelId,
                 new LocalMessage()
                     .WithContent(candidate.Mention)
-                    .WithEmbed(
+                    .WithEmbeds(
                         new LocalEmbed()
                             .WithAuthor(candidate)
                             .WithTitle($"Campaign for {campaignType?.Name ?? "Unknown"} denied")
@@ -316,7 +316,7 @@ namespace Ixfleura.Services
             {
                 return new LocalMessage()
                     .WithContent(candidate.Mention)
-                    .WithEmbed(
+                    .WithEmbeds(
                         new LocalEmbed()
                             .WithAuthor(candidate)
                             .WithTitle($"Campaign for {campaignType.Name} accepted!")
@@ -340,7 +340,7 @@ namespace Ixfleura.Services
             
             return new LocalMessage()
                 .WithContent(candidate.Mention)
-                .WithEmbed(
+                .WithEmbeds(
                     new LocalEmbed()
                         .WithAuthor(candidate)
                         .WithTitle($"Campaign for {campaignType.Name} denied")
