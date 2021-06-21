@@ -92,7 +92,6 @@ namespace Ixfleura
 
             try
             {
-                host.Services.GetService<CampaignService>();    // Initialise campaign service
                 host.Run();
             }
             catch (Exception e)

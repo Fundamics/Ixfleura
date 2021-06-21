@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Disqord;
 using Disqord.Gateway;
+using Disqord.Hosting;
 using Disqord.Rest;
 using Humanizer;
 using Ixfleura.Common.Configuration;
@@ -17,7 +18,7 @@ using Microsoft.Extensions.Options;
 
 namespace Ixfleura.Services
 {
-    public class CampaignService : IxfleuraService
+    public class CampaignService : DiscordClientService
     {
         private readonly ILogger _logger;
         private readonly IConfiguration _configuration;
@@ -26,7 +27,6 @@ namespace Ixfleura.Services
         private readonly DiscordClientBase _client;
         private readonly ulong _guildId;
         
-        // ReSharper disable once CollectionNeverQueried.Local
         private List<(int, Timer)> _timers;
         
         public CampaignService(
@@ -34,7 +34,7 @@ namespace Ixfleura.Services
             IConfiguration configuration,
             IOptions<CampaignsConfiguration> config,
             IDbContextFactory<IxfleuraDbContext> dbContextFactory,
-            DiscordClientBase client) : base(logger)
+            DiscordClientBase client) : base(logger, client)
         {
             _logger = logger;
             _configuration = configuration;
@@ -47,7 +47,12 @@ namespace Ixfleura.Services
             _timers = new();
             
             ValidateConfiguration();
-            _ = ScheduleCampaignsAsync();
+        }
+
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            await _client.WaitUntilReadyAsync(stoppingToken);
+            await ScheduleCampaignsAsync();
         }
 
         private void ValidateConfiguration()
@@ -208,8 +213,6 @@ namespace Ixfleura.Services
         /// </summary>
         private async Task ScheduleCampaignsAsync()
         {
-            await _client.WaitUntilReadyAsync(new CancellationToken());
-            
             await using var db = _dbContextFactory.CreateDbContext();
             var campaigns = await db.Campaigns.ToListAsync();
 
