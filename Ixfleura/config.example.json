@@ -12,7 +12,23 @@
     "welcome_id" : 0,
     "meta_id" : 0
   },
-  
+ 
+  "campaigns" : {
+    "channel_id" : 0,
+    "log_channel_id" : 0,
+    "types" : [
+      {
+        "name" : "Rank Name",
+        "enabled": true,
+        "role_ids" : [0],
+        "required_role_ids" : [0],
+        "duration" : "1.00:00:00",
+        "minimum_votes" : 10,
+        "minimum_ratio" : 0.8
+      }
+    ]
+  },
+ 
   "roles" : {
     "mod" : 0,
     "admin" : 0,

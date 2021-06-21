@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Disqord;
 using Disqord.Bot.Hosting;
 using Disqord.Gateway;
+using Ixfleura.Common.Configuration;
 using Ixfleura.Common.Extensions;
 using Ixfleura.Common.Globals;
 using Ixfleura.Data;
@@ -59,6 +61,30 @@ namespace Ixfleura
                         options.UseSnakeCaseNamingConvention();
                     });
                     
+                    services.Configure<CampaignsConfiguration>(options =>
+                    {
+                        var section = context.Configuration.GetSection("campaigns");
+                        var typeSections = section.GetSection("types").GetChildren();
+                        
+                        options.ChannelId = section.GetValue<ulong>("channel_id");
+                        options.LogChannelId = section.GetValue<ulong>("log_channel_id");
+                        options.Types = new List<CampaignTypeConfiguration>();
+
+                        foreach (var typeSection in typeSections)
+                        {
+                            options.Types.Add(new CampaignTypeConfiguration
+                            {
+                                Name = typeSection.GetValue<string>("name"),
+                                Enabled = typeSection.GetValue<bool>("enabled"),
+                                RoleIds = typeSection.GetSection("role_ids").GetChildren().Select(x => x.Get<ulong>()).ToArray(),
+                                RequiredRoleIds = typeSection.GetSection("required_role_ids").GetChildren().Select(x => x.Get<ulong>()).ToArray(),
+                                Duration = typeSection.GetValue<TimeSpan>("duration"),
+                                MinimumVotes = typeSection.GetValue<int>("minimum_votes"),
+                                MinimumRatio = typeSection.GetValue<decimal>("minimum_ratio")
+                            });
+                        }
+                    });
+                    
                     services
                         .AddSingleton<Random>()
                         .AddIxServices();
@@ -67,6 +93,7 @@ namespace Ixfleura
 
             try
             {
+                host.Services.GetService<CampaignService>();    // Initialise campaign service
                 host.Run();
             }
             catch (Exception e)
