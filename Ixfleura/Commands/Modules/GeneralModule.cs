@@ -76,7 +76,8 @@ namespace Ixfleura.Commands.Modules
                 {
                     var aliases = commands.Select(x => x.Aliases[0])
                         .OrderBy(x => x)
-                        .Select(x => Markdown.Code(x));
+                        .Select(x => Markdown.Code(x))
+                        .Distinct();
                     builder.AddField("Commands", string.Join(", ", aliases));
                 }
 
