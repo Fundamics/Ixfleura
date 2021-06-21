@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Disqord;
 using Disqord.Bot.Hosting;
 using Disqord.Gateway;
 using Ixfleura.Common.Configuration;

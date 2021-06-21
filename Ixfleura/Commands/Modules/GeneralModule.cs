@@ -7,7 +7,6 @@ using Disqord.Bot;
 using Disqord.Rest;
 using Ixfleura.Commands.Bases.ViewBases;
 using Ixfleura.Common.Extensions;
-using Ixfleura.Common.Globals;
 using Qmmands;
 
 namespace Ixfleura.Commands.Modules
