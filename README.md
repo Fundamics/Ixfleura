@@ -10,7 +10,7 @@ Ixfleura (pronounced - 'eeks-fluh-ra') is a discord bot designed to help the Fun
 - Tags
 - Suggestions
 - Moderation (Includes auto-mod)
-- Campaigns (W.I.P.)
+- Campaigns
 
 ## Development
 
